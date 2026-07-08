@@ -26,11 +26,10 @@ There are three types of users: **athlete** (registered user), **facility employ
 
 | Layer | Technology |
 |---|---|
-| Frontend | Angular 20 |
+| Frontend | Angular |
 | Backend | Node.js + Express |
 | Database | MongoDB |
 | ORM/ODM | Mongoose |
-| Auth | JWT + bcrypt |
 | File Upload | Multer |
 | PDF Generation | Puppeteer |
 | Calendar | FullCalendar |
@@ -60,20 +59,6 @@ npm run dev
 cd frontend
 npm install
 ng serve
-```
-
-> **Note:** Make sure MongoDB is running before starting the backend. The database is initialized and populated independently from the application (tables/collections are not created from the app itself).
-
-## Environment Variables
-
-Create a `.env` file in the `backend` folder with the following:
-
-```
-PORT=3000
-MONGO_URI=mongodb://localhost:27017/sportsphere
-JWT_SECRET=your_jwt_secret
-EMAIL_USER=your_gmail@gmail.com
-EMAIL_PASS=your_app_password
 ```
 
 ## Running the Application
