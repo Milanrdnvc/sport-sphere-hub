@@ -39,12 +39,6 @@ There are three types of users: **athlete** (registered user), **facility employ
 
 Clone this repository to your local development environment.
 
-### Prerequisites
-
-* Node.js (v18+)
-* MongoDB (running locally or via connection string)
-* Angular CLI (`npm install -g @angular/cli`)
-
 ### Backend
 
 ```bash
