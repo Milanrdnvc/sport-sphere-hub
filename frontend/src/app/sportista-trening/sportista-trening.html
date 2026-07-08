@@ -1,0 +1,127 @@
+<!-- <h2>Pregled trenera</h2>
+Objekat:
+<select name="" id="" [(ngModel)]="izabraniObjekat" (ngModelChange)="pretrazi()">
+  @for (o of dostupniObjekti; track o) {
+    <option [value]="o">{{ o }}</option>
+  }
+</select>
+Sport:
+<select name="" id="" [(ngModel)]="izabraniSport" (ngModelChange)="pretrazi()">
+  @for (s of dostupniSportovi; track s) {
+    <option [value]="s">{{ s }}</option>
+  }
+</select>
+@for (pT of pronadjeniTreneri; track pT._id) {
+  <p>
+    {{ pT.ime_prezime }} - {{ pT.specijalizacija }} - {{ pT.prosecna_ocena }}⭐ -
+    {{ pT.cena_po_satu }}e <br />
+    Dan:
+    <input type="text" name="" id="" placeholder="yyyy-mm-dd" [(ngModel)]="noviTreningDatum" />
+    Od:
+    <input
+      type="text"
+      name=""
+      id=""
+      placeholder="hh-hh (24 hour format)"
+      [(ngModel)]="novaTreningOd"
+    />
+    Do:
+    <input
+      type="text"
+      name=""
+      id=""
+      placeholder="hh-hh (24 hour format)"
+      [(ngModel)]="novaTreningDo"
+    />
+    <button (click)="zakaziTreninig(pT)">Zakazi trening</button>
+  </p>
+} -->
+<div class="container mt-4">
+  <div class="card border-0 shadow-sm mb-4">
+    <div class="card-body p-4">
+      <h4 class="fw-bold text-dark mb-3">Pregled trenera</h4>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label fw-semibold small text-secondary">Objekat:</label>
+          <select class="form-select" [(ngModel)]="izabraniObjekat" (ngModelChange)="pretrazi()">
+            <option value="">Svi objekti</option>
+            @for (o of dostupniObjekti; track o) {
+              <option [value]="o">{{ o }}</option>
+            }
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label fw-semibold small text-secondary">Sport:</label>
+          <select class="form-select" [(ngModel)]="izabraniSport" (ngModelChange)="pretrazi()">
+            <option value="">Svi sportovi</option>
+            @for (s of dostupniSportovi; track s) {
+              <option [value]="s">{{ s }}</option>
+            }
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @if (errMsg) {
+    <div
+      class="alert alert-danger d-flex align-items-center mb-4 border-0 shadow-sm py-2 px-3"
+      role="alert"
+    >
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>
+      <div class="fw-semibold small">
+        {{ errMsg }}
+      </div>
+    </div>
+  }
+  <div class="row g-3">
+    @for (pT of pronadjeniTreneri; track pT._id) {
+      <div class="col-12">
+        <div class="card border-0 shadow-sm p-3">
+          <div class="fw-semibold text-dark mb-3 fs-6">
+            {{ pT.ime_prezime }} - {{ pT.specijalizacija }} - {{ pT.prosecna_ocena }} -
+            {{ pT.cena_po_satu }}€
+          </div>
+
+          <div class="row g-2 align-items-end">
+            <div class="col-md-3">
+              <label class="form-label small text-muted mb-1">Dan:</label>
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                placeholder="yyyy-mm-dd"
+                [(ngModel)]="noviTreninzi[pT._id].datum"
+              />
+            </div>
+            <div class="col-md-3">
+              <label class="form-label small text-muted mb-1">Od:</label>
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                placeholder="hh-hh (24 hour format)"
+                [(ngModel)]="noviTreninzi[pT._id].termin_od"
+              />
+            </div>
+            <div class="col-md-3">
+              <label class="form-label small text-muted mb-1">Do:</label>
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                placeholder="hh-hh (24 hour format)"
+                [(ngModel)]="noviTreninzi[pT._id].termin_do"
+              />
+            </div>
+            <div class="col-md-3">
+              <button
+                class="btn btn-primary btn-sm w-100 fw-semibold py-2"
+                (click)="zakaziTreninig(pT)"
+              >
+                Zakazi trening
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

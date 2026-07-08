@@ -1,0 +1,364 @@
+<!-- <h2>Licni podaci</h2>
+Korisnicko ime:
+<input
+  type="text"
+  name=""
+  id=""
+  placeholder="Korisnicko ime"
+  disabled
+  [(ngModel)]="ulogovanSportista.kor_ime"
+/>
+Lozinka (OVO MOZDA NI NE TREBA)
+<input type="password" name="" id="" placeholder="Lozinka" [(ngModel)]="novaLozinka" />
+Ime:
+<input type="text" name="" id="" placeholder="Ime" [(ngModel)]="ulogovanSportista.ime" />
+Prezime:
+<input type="text" name="" id="" placeholder="Prezime" [(ngModel)]="ulogovanSportista.prezime" />
+E-mail:
+<input type="email" name="" id="" placeholder="E-mail" [(ngModel)]="ulogovanSportista.email" />
+Kontakt telefon:
+<input
+  type="text"
+  name=""
+  id=""
+  placeholder="Kontakt telefon"
+  [(ngModel)]="ulogovanSportista.kontakt_telefon"
+/>
+Omiljeni sportovi:
+@for (s of ulogovanSportista.sportovi; track s) {
+  <span>{{ s }}</span>
+}
+<br />
+<select
+  name=""
+  id=""
+  multiple
+  [(ngModel)]="ulogovanSportista.sportovi"
+  (ngModelChange)="proveriLimitSportova($event)"
+>
+  @for (s of dostupniSportovi; track s.naziv) {
+    <option [value]="s.naziv">{{ s.naziv }}</option>
+  }
+</select>
+Profilna slika:
+<img [src]="this.ulogovanSportista.pfp" alt="this.ulogovanSportista.pfp" />
+<input type="file" (change)="izaberiSliku($event)" accept=".jpg,.png" />
+<button (click)="azurirajProfil()">Azuriraj profil</button>
+<span style="color: red">{{ errMsg }}</span>
+
+<h2>Rezervacije</h2>
+
+<table>
+  <tr>
+    <th (click)="sortiraj('naziv_objekta')" style="cursor: pointer">
+      Objekat
+      @if (trenutnaKolona === 'naziv_objekta') {
+        {{ smerSortiranja === 'asc' ? '▲' : '▼' }}
+      }
+    </th>
+    <th (click)="sortiraj('grad')" style="cursor: pointer">
+      Grad
+      @if (trenutnaKolona === 'grad') {
+        {{ smerSortiranja === 'asc' ? '▲' : '▼' }}
+      }
+    </th>
+    <th (click)="sortiraj('teren_hala')" style="cursor: pointer">
+      Teren/hala
+      @if (trenutnaKolona === 'teren_hala') {
+        {{ smerSortiranja === 'asc' ? '▲' : '▼' }}
+      }
+    </th>
+    <th (click)="sortiraj('sport')" style="cursor: pointer">
+      Sport
+      @if (trenutnaKolona === 'sport') {
+        {{ smerSortiranja === 'asc' ? '▲' : '▼' }}
+      }
+    </th>
+    <th (click)="sortiraj('Tip')" style="cursor: pointer">
+      Tip
+      @if (trenutnaKolona === 'tip') {
+        {{ smerSortiranja === 'asc' ? '▲' : '▼' }}
+      }
+    </th>
+    <th (click)="sortiraj('termin_od')" style="cursor: pointer">
+      Od-do
+      @if (trenutnaKolona === 'termin_od') {
+        {{ smerSortiranja === 'asc' ? '▲' : '▼' }}
+      }
+    </th>
+    <th (click)="sortiraj('status')" style="cursor: pointer">
+      Status
+      @if (trenutnaKolona === 'status') {
+        {{ smerSortiranja === 'asc' ? '▲' : '▼' }}
+      }
+    </th>
+  </tr>
+  @for (r of rezervacije; track r._id) {
+    <tr>
+      <td>{{ r.naziv_objekta }}</td>
+      <td>{{ r.grad }}</td>
+      <td>{{ r.teren_hala }}</td>
+      <td>{{ r.sport }}</td>
+      <td>{{ r.tip }}</td>
+      <td>{{ r.datum }}: {{ r.termin_od }} - {{ r.termin_do }}</td>
+      <td>{{ r.status }}</td>
+      @if (mozeOtkazati(r)) {
+        <td><button (click)="otkaziRezervaciju(r._id)">Otkazi</button></td>
+      }
+    </tr>
+  }
+</table>
+
+<h2>Narudzbine (istorija i aktivne)</h2>
+<table>
+  <tr>
+    <th>Redni broj</th>
+    <th>Stavke</th>
+    <th>Status</th>
+  </tr>
+  @for (n of narudzbine; track n._id; let i = $index) {
+    <tr>
+      <td>{{ i + 1 }}</td>
+
+      <ul>
+        @for (s of n.stavke; track s.artikal_id) {
+          <li>{{ s.naziv }} - {{ s.cena_u_trenutku_kupovine * s.kolicina }}e</li>
+        }
+      </ul>
+
+      @if (n.status == 'naruceno') {
+        <td><button (click)="otkaziNarudzbiu(n._id)">Otkazi</button></td>
+      } @else {
+        <td>
+          <span>{{ n.status }}</span>
+        </td>
+      }
+    </tr>
+  }
+</table> -->
+<div class="container mt-4">
+  <div class="card mb-4 border-0 shadow-sm">
+    <div class="card-header bg-white py-3 border-0">
+      <h4 class="mb-0 fw-bold text-dark">Licni podaci</h4>
+    </div>
+    <div class="card-body bg-light border-top">
+      <div class="row g-4">
+        <div class="col-md-3 text-center border-end">
+          <div class="mb-3">
+            <img
+              [src]="ulogovanSportistaPfp"
+              alt="Profilna slika"
+              class="img-fluid rounded-circle border shadow-sm"
+              style="width: 130px; height: 130px; object-fit: cover"
+            />
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold text-muted small d-block"
+              >Promeni profilnu sliku</label
+            >
+            <input
+              type="file"
+              class="form-control form-control-sm"
+              (change)="izaberiSliku($event)"
+              accept=".jpg,.png"
+            />
+          </div>
+        </div>
+
+        <div class="col-md-9">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label fw-semibold text-muted small">Korisnicko ime</label>
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                disabled
+                [(ngModel)]="ulogovanSportista.kor_ime"
+              />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fw-semibold text-muted small">Nova lozinka</label>
+              <input
+                type="password"
+                class="form-control form-control-sm"
+                [(ngModel)]="novaLozinka"
+                placeholder="Unesite novu lozinku"
+              />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fw-semibold text-muted small">Ime</label>
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                [(ngModel)]="ulogovanSportista.ime"
+                placeholder="Ime"
+              />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fw-semibold text-muted small">Prezime</label>
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                [(ngModel)]="ulogovanSportista.prezime"
+                placeholder="Prezime"
+              />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fw-semibold text-muted small">E-mail</label>
+              <input
+                type="email"
+                class="form-control form-control-sm"
+                [(ngModel)]="ulogovanSportista.email"
+                placeholder="E-mail"
+              />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fw-semibold text-muted small">Kontakt telefon</label>
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                [(ngModel)]="ulogovanSportista.kontakt_telefon"
+                placeholder="Kontakt telefon"
+              />
+            </div>
+
+            <div class="col-md-12">
+              <label class="form-label fw-semibold text-muted small d-block"
+                >Omiljeni sportovi</label
+              >
+              <div class="mb-2">
+                @for (s of ulogovanSportista.sportovi; let i = $index; track i) {
+                  <span class="badge bg-primary rounded-pill me-1 px-2.5 py-1.5">{{ s }}</span>
+                }
+              </div>
+              <select
+                class="form-select form-select-sm"
+                multiple
+                [(ngModel)]="ulogovanSportista.sportovi"
+                (ngModelChange)="proveriLimitSportova($event)"
+              >
+                @for (s of dostupniSportovi; track s.naziv) {
+                  <option [value]="s.naziv">{{ s.naziv }}</option>
+                }
+              </select>
+            </div>
+          </div>
+
+          <div class="mt-4 d-flex align-items-center justify-content-between">
+            <button class="btn btn-primary btn-sm px-4 fw-semibold" (click)="azurirajProfil()">
+              Azuriraj profil
+            </button>
+            @if (errMsg) {
+              <span class="text-danger small fw-semibold">{{ errMsg }}</span>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-4 border-0 shadow-sm">
+    <div class="card-header bg-white py-3 border-0">
+      <h4 class="mb-0 fw-bold text-dark">Rezervacije</h4>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th (click)="sortiraj('naziv_objekta')" style="cursor: pointer">Objekat</th>
+              <th (click)="sortiraj('grad')" style="cursor: pointer">Grad</th>
+              <th (click)="sortiraj('teren_hala')" style="cursor: pointer">Teren/hala</th>
+              <th (click)="sortiraj('sport')" style="cursor: pointer">Sport</th>
+
+              <th (click)="sortiraj('termin_od')" style="cursor: pointer">Od-do</th>
+              <th (click)="sortiraj('status')" style="cursor: pointer">Status</th>
+              <th>Akcija</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (r of rezervacije; track r._id) {
+              <tr>
+                <td class="fw-semibold">{{ r.naziv_objekta }}</td>
+                <td>{{ r.grad }}</td>
+                <td>{{ r.teren_hala }}</td>
+                <td>{{ r.sport }}</td>
+                <td>{{ r.datum }}: {{ r.termin_od }} - {{ r.termin_do }}</td>
+                <td>
+                  <span class="badge rounded-pill px-3 bg-primary">
+                    {{ r.status }}
+                  </span>
+                </td>
+                <td>
+                  @if (mozeOtkazati(r)) {
+                    <button
+                      class="btn btn-outline-primary btn-sm fw-semibold"
+                      (click)="otkaziRezervaciju(r._id)"
+                    >
+                      Otkazi
+                    </button>
+                  } @else {
+                    <span class="text-muted small">-</span>
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-4 border-0 shadow-sm">
+    <div class="card-header bg-white py-3 border-0">
+      <h4 class="mb-0 fw-bold text-dark">Narudzbine (istorija i aktivne)</h4>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th style="width: 15%">Redni broj</th>
+              <th>Stavke</th>
+              <th style="width: 20%">Status / Akcija</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (n of narudzbine; track n._id; let i = $index) {
+              <tr>
+                <td class="fw-semibold ps-3">#{{ i + 1 }}</td>
+                <td>
+                  <ul class="list-unstyled mb-0 py-1">
+                    @for (s of n.stavke; track s.artikal_id) {
+                      <li class="mb-1 small text-secondary">
+                        ⚫ <strong class="text-dark">{{ s.naziv }}</strong> -
+                        {{ s.cena_u_trenutku_kupovine * s.kolicina }}€
+                      </li>
+                    }
+                  </ul>
+                </td>
+                <td>
+                  @if (n.status == 'naruceno') {
+                    <button
+                      class="btn btn-outline-primary btn-sm fw-semibold"
+                      (click)="otkaziNarudzbiu(n._id)"
+                    >
+                      Otkazi
+                    </button>
+                  } @else {
+                    <span class="badge bg-primary rounded-pill px-3">{{ n.status }}</span>
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

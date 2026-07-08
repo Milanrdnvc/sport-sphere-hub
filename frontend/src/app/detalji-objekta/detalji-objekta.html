@@ -1,0 +1,103 @@
+<!-- <h1>{{ selektovanObjekat.detalji_objekta.naziv }}</h1>
+<p>Grad: {{ selektovanObjekat.detalji_objekta.grad }}</p>
+<p>Adresa: {{ selektovanObjekat.detalji_objekta.adresa }}</p>
+<p>Svidjanja: {{ selektovanObjekat.broj_lajkova }}</p>
+<p>Nesvidjanja: {{ selektovanObjekat.broj_dislajkova }}</p>
+
+<h2>Lista dostupnih terena/hala</h2>
+<table>
+  <tr>
+    <th>Naziv</th>
+    <th>Tip</th>
+  </tr>
+  @for (el of selektovanObjekat.detalji_objekta.elementi; track el._id) {
+    <tr>
+      <td>{{ el.naziv }}</td>
+      <td>{{ el.tip }}</td>
+    </tr>
+  }
+</table>
+
+<h2>Cenovnik po satu</h2>
+<p>{{ selektovanObjekat.detalji_objekta.cenovnik_po_satu }}e</p>
+
+<h2>Galerija</h2>
+@for (img of selektovanObjekat.detalji_objekta.galerija; track img) {
+  <img [src]="img" alt="img" />
+} -->
+<div class="container mt-4">
+  <div class="card mb-4 border-0 shadow-sm">
+    <div class="card-body py-4">
+      <button class="btn btn-outline-primary btn-sm mb-3 fw-semibold" (click)="nazad()">
+        Nazad na pregled objekata
+      </button>
+      <h1 class="fw-bold mb-3">{{ selektovanObjekat.detalji_objekta.naziv }}</h1>
+      <p class="mb-2"><strong>Grad:</strong> {{ selektovanObjekat.detalji_objekta.grad }}</p>
+      <p class="mb-3"><strong>Adresa:</strong> {{ selektovanObjekat.detalji_objekta.adresa }}</p>
+
+      <div class="d-flex gap-2 mb-3">
+        <span class="badge bg-primary rounded-pill px-3">
+          Svidjanja: {{ selektovanObjekat.broj_lajkova }}
+        </span>
+        <span class="badge bg-primary rounded-pill px-3">
+          Nesvidjanja: {{ selektovanObjekat.broj_dislajkova }}
+        </span>
+      </div>
+
+      <hr />
+
+      <h5 class="fw-bold mb-0 text-dark">
+        Cenovnik po satu:
+        <span class="fw-bold">{{ selektovanObjekat.detalji_objekta.cenovnik_po_satu }}€</span>
+      </h5>
+    </div>
+  </div>
+
+  <div class="card mb-4 border-0 shadow-sm">
+    <div class="card-header bg-white py-3 border-0">
+      <h4 class="mb-0 fw-bold">Lista dostupnih terena/hala</h4>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Naziv</th>
+              <th>Tip</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (el of selektovanObjekat.detalji_objekta.elementi; track el._id) {
+              <tr>
+                <td class="fw-semibold">{{ el.naziv }}</td>
+                <td>
+                  {{ el.tip === 'otvoreni_teren' ? 'Otvoreni teren' : 'Zatvorena hala' }}
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-4 border-0 shadow-sm">
+    <div class="card-header bg-white py-3 border-0">
+      <h4 class="mb-0 fw-bold">Galerija</h4>
+    </div>
+    <div class="card-body">
+      <div class="row row-cols-2 row-cols-md-4 g-3">
+        @for (img of selektovanObjekat.detalji_objekta.galerija; let i = $index; track i) {
+          <div class="col">
+            <img
+              [src]="'http://localhost:4000' + img"
+              alt="img"
+              class="img-fluid rounded border shadow-sm"
+              style="height: 180px; object-fit: contain; width: 100%"
+            />
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

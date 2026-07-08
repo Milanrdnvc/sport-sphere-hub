@@ -1,0 +1,259 @@
+<!-- <h2>Kreiraj oglas za trazenje saigraca</h2>
+Sport:
+<select name="" id="" [(ngModel)]="noviOglasSport">
+  @for (s of sportovi; track s) {
+    <option [value]="s">{{ s }}</option>
+  }
+</select>
+Grad: <input type="text" name="" id="" placeholder="" [(ngModel)]="noviOglasGrad" /> Dan:
+<input type="text" name="" id="" placeholder="yyyy-mm-dd" [(ngModel)]="noviOglasDatum" />
+Od:
+<input type="text" name="" id="" placeholder="hh-hh (24 hour format)" [(ngModel)]="noviOglasOd" />
+Do:
+<input type="text" name="" id="" placeholder="hh-hh (24 hour format)" [(ngModel)]="noviOglasDo" />
+Broj nedostajucih igraca:
+<input type="number" name="" id="" [(ngModel)]="noviOglasBrIgraca" />
+<button (click)="postaviOglas()">Postavi oglas</button>
+
+<h2>Svi oglasi</h2>
+<table>
+  <tr>
+    <th>Sport</th>
+    <th>Grad</th>
+    <th>Datum</th>
+    <th>Od - do</th>
+    <th>Potrebno igraca</th>
+  </tr>
+  @for (o of sviAktivniOglasi; track o._id) {
+    <tr>
+      <td>{{ o.sport }}</td>
+      <td>{{ o.grad }}</td>
+      <td>{{ o.datum }}</td>
+      <td>{{ o.termin_od }}</td>
+      <td>{{ o.termin_do }}</td>
+      <td>{{ o.potrebno_igraca }}</td>
+      @if (o.sportista_id != ulogovanSportista._id) {
+        <td><button (click)="pridruziSe(o._id)">Pridruzi se</button></td>
+      } @else {
+        <td><button (click)="zatvori(o._id)">Zatvori oglas</button></td>
+      }
+    </tr>
+  }
+</table>
+
+<h2>Upravljanje oglasima</h2>
+<table>
+  <tr>
+    <th>Sport</th>
+    <th>Grad</th>
+    <th>Datum</th>
+    <th>Od - do</th>
+    <th>Potrebno igraca</th>
+  </tr>
+  @for (o of sviAktivniOglasi; track o._id) {
+    @if (o.sportista_id == ulogovanSportista._id) {
+      <tr>
+        <td>{{ o.sport }}</td>
+        <td>{{ o.grad }}</td>
+        <td>{{ o.datum }}</td>
+        <td>{{ o.termin_od }}</td>
+        <td>{{ o.termin_do }}</td>
+        <td>
+          <ul>
+            @for (i of o.prijavljeni_sportisti_ids; track i) {
+              <li>
+                {{ i }} <button (click)="odobri(o._id, i)">Odobri</button>
+                <button (click)="odbij(o._id, i)">Odbij</button>
+              </li>
+            }
+          </ul>
+        </td>
+      </tr>
+    }
+  }
+</table> -->
+
+<div class="container mt-4">
+  <div class="card mb-4 border-0 shadow-sm">
+    <div class="card-header bg-white py-3 border-0">
+      <h4 class="mb-0 fw-bold text-dark">Kreiraj oglas za trazenje saigraca</h4>
+    </div>
+    <div class="card-body bg-light border-top">
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label class="form-label fw-semibold text-muted small">Sport</label>
+          <select class="form-select form-select-sm" [(ngModel)]="noviOglas.sport">
+            @for (s of sportovi; track s) {
+              <option [value]="s">{{ s }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label fw-semibold text-muted small">Grad</label>
+          <input type="text" class="form-control form-control-sm" [(ngModel)]="noviOglas.grad" />
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label fw-semibold text-muted small">Dan</label>
+          <input
+            type="text"
+            class="form-control form-control-sm"
+            placeholder="yyyy-mm-dd"
+            [(ngModel)]="noviOglas.datum"
+          />
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label fw-semibold text-muted small">Od</label>
+          <input
+            type="text"
+            class="form-control form-control-sm"
+            placeholder="hh-hh (24 hour format)"
+            [(ngModel)]="noviOglas.termin_od"
+          />
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label fw-semibold text-muted small">Do</label>
+          <input
+            type="text"
+            class="form-control form-control-sm"
+            placeholder="hh-hh (24 hour format)"
+            [(ngModel)]="noviOglas.termin_do"
+          />
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label fw-semibold text-muted small">Broj nedostajucih igraca</label>
+          <input
+            type="number"
+            class="form-control form-control-sm"
+            [(ngModel)]="noviOglas.potrebno_igraca"
+          />
+        </div>
+
+        <div class="col-md-12 mt-4">
+          <button class="btn btn-primary btn-sm px-4 fw-semibold" (click)="postaviOglas()">
+            Postavi oglas
+          </button>
+
+          @if (errMsg) {
+            <p class="text-danger small fw-semibold">{{ errMsg }}</p>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-4 border-0 shadow-sm">
+    <div class="card-header bg-white py-3 border-0">
+      <h4 class="mb-0 fw-bold text-dark">Oglasi drugih igraca</h4>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Sport</th>
+              <th>Grad</th>
+              <th>Datum</th>
+              <th>Od</th>
+              <th>Do</th>
+              <th>Potrebno igraca</th>
+              <th>Akcija</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (o of aktivniOglasiDrugih; track o._id) {
+              <tr>
+                <td class="fw-semibold">{{ o.sport }}</td>
+                <td>{{ o.grad }}</td>
+                <td>{{ o.datum }}</td>
+                <td>{{ o.termin_od }}</td>
+                <td>{{ o.termin_do }}</td>
+                <td>
+                  <span class="badge rounded-pill px-3 bg-primary">
+                    {{ o.potrebno_igraca }}
+                  </span>
+                </td>
+                <td>
+                  @if (!jePrijavljen(o)) {
+                    <button class="btn btn-primary btn-sm fw-semibold" (click)="pridruziSe(o._id)">
+                      Pridruzi se
+                    </button>
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-4 border-0 shadow-sm">
+    <div class="card-header bg-white py-3 border-0">
+      <h4 class="mb-0 fw-bold text-dark">Upravljanje mojim oglasima</h4>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Sport</th>
+              <th>Grad</th>
+              <th>Datum</th>
+              <th>Od</th>
+              <th>Do</th>
+              <th>Prijavljeni saigraci</th>
+              <th>Akcija</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (o of aktivniOglasiSportiste; track o._id) {
+              <tr>
+                <td class="fw-semibold">{{ o.sport }}</td>
+                <td>{{ o.grad }}</td>
+                <td>{{ o.datum }}</td>
+                <td>{{ o.termin_od }}</td>
+                <td>{{ o.termin_do }}</td>
+                <td>
+                  <ul class="list-unstyled mb-0 py-1">
+                    @for (i of o.prijavljeni_sportisti_ids; let idx = $index; track idx) {
+                      <li
+                        class="mb-2 small text-secondary d-flex align-items-center justify-content-between"
+                        style="max-width: 300px"
+                      >
+                        <span>{{ i.ime }} {{ i.prezime }}</span>
+                        <div class="ms-3">
+                          <button
+                            class="btn btn-primary btn-sm fw-semibold me-1 py-0.5 px-2 text-xs"
+                            (click)="odobri(o._id, i._id)"
+                          >
+                            Odobri
+                          </button>
+                          <button
+                            class="btn btn-primary btn-sm fw-semibold py-0.5 px-2 text-xs"
+                            (click)="odbij(o._id, i._id)"
+                          >
+                            Odbij
+                          </button>
+                        </div>
+                      </li>
+                    }
+                  </ul>
+                </td>
+                <td>
+                  <button class="btn btn-primary btn-sm fw-semibold px-3" (click)="zatvori(o._id)">
+                    Otkazi oglas
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,262 @@
+<!-- <h2>Detalji</h2>
+
+<p>{{ selektovanObjekat.detalji_objekta.duzi_opis }}</p>
+
+@for (img of selektovanObjekat.detalji_objekta.galerija; track img) {
+  <img [src]="img" [alt]="img" />
+}
+
+<h2>Izaberite teren/halu</h2>
+
+<button (click)="prethodniElement()">Prethodni</button>
+<button (click)="sledeciElement()">Sledeci</button>
+
+<div style="max-width: 900px; margin: 20px auto; padding: 10px">
+  <full-calendar [options]="calendarOptions"></full-calendar>
+</div>
+
+<h2>Rezervacija</h2>
+Dan:
+<input type="text" name="" id="" placeholder="yyyy-mm-dd" [(ngModel)]="novaRezervacijaDatum" />
+Od:
+<input
+  type="text"
+  name=""
+  id=""
+  placeholder="hh-hh (24 hour format)"
+  [(ngModel)]="novaRezervacijaOd"
+/>
+Do:
+<input
+  type="text"
+  name=""
+  id=""
+  placeholder="hh-hh (24 hour format)"
+  [(ngModel)]="novaRezervacijaDo"
+/>
+<button (click)="rezervisi()">Rezervisi</button> -->
+
+<div class="container mt-4">
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="d-flex align-items-center gap-3 mb-3">
+        <a
+          class="btn btn-outline-primary btn-sm fw-semibold px-3 shadow-sm"
+          routerLink="/sportista-rezervacija"
+        >
+          Nazad
+        </a>
+        <h2 class="fw-bold text-dark m-0">{{ selektovanObjekat.detalji_objekta.naziv }}</h2>
+      </div>
+
+      <div class="card border-0 shadow-sm bg-light p-4 mb-4">
+        <h5 class="fw-semibold mb-2">O objektu</h5>
+        <p class="leading-relaxed mb-0">
+          {{ selektovanObjekat.detalji_objekta.duzi_opis }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+          <h4 class="fw-bold text-dark mb-3">Lokacija objekta</h4>
+
+          <div class="ratio ratio-21x9 rounded overflow-hidden shadow-sm border">
+            <iframe
+              [src]="mapaUrl"
+              width="100%"
+              height="100%"
+              style="border: 0"
+              allowfullscreen=""
+              loading="lazy"
+            >
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @if (
+    selektovanObjekat.detalji_objekta.galerija &&
+    selektovanObjekat.detalji_objekta.galerija.length > 0
+  ) {
+    <div class="mb-5">
+      <h5 class="fw-bold mb-3">Galerija fotografija</h5>
+      <div class="row g-3">
+        @for (img of selektovanObjekat.detalji_objekta.galerija; let i = $index; track i) {
+          <div class="col-6 col-md-3">
+            <div class="ratio ratio-4x3 shadow-sm rounded overflow-hidden border">
+              <img
+                [src]="'http://localhost:4000' + img"
+                [alt]="img"
+                class="img-fluid object-fit-cover hover-zoom"
+              />
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
+            <h4 class="fw-bold text-dark m-0">Izaberite teren/halu</h4>
+            <h4>{{ aktivniEl.naziv }}</h4>
+            <div class="btn-group">
+              <button
+                class="btn btn-outline-primary btn-sm fw-semibold"
+                (click)="prethodniElement()"
+              >
+                <i class="bi bi-chevron-left"></i> Prethodni
+              </button>
+              <button class="btn btn-outline-primary btn-sm fw-semibold" (click)="sledeciElement()">
+                Sledeci <i class="bi bi-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="calendar-container p-2 bg-white rounded">
+            <full-calendar [options]="calendarOptions"></full-calendar>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-5">
+    <div class="col-12">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-primary text-white py-3 border-0">
+          <h5 class="mb-0 fw-bold">Nova Rezervacija</h5>
+        </div>
+
+        <div class="card-body p-4 bg-light">
+          @if (errMsg) {
+            <div
+              class="alert alert-danger d-flex align-items-center mb-4 border-0 shadow-sm"
+              role="alert"
+            >
+              <i class="bi bi-exclamation-triangle-fill me-2"></i>
+              <div class="fw-semibold">
+                {{ errMsg }}
+              </div>
+            </div>
+          }
+          <div class="row g-3 align-items-end">
+            <div class="col-md-3">
+              <label class="form-label fw-semibold small">Datum termina</label>
+              <div class="input-group input-group-sm">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="YYYY-MM-DD"
+                  [(ngModel)]="novaRezervacija.datum"
+                />
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <label class="form-label fw-semibold small">Izaberite sport</label>
+              <div class="input-group input-group-sm">
+                <select class="form-select" [(ngModel)]="novaRezervacija.sport">
+                  <option value="" disabled selected hidden>Izaberite...</option>
+                  @for (s of aktivniEl.podrzani_sportovi; track s) {
+                    <option [value]="s">{{ s }}</option>
+                  }
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-2">
+              <label class="form-label fw-semibold small">Vreme od (Sat)</label>
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control" [(ngModel)]="novaRezervacija.termin_od" />
+              </div>
+            </div>
+
+            <div class="col-md-2">
+              <label class="form-label fw-semibold small">Vreme do (Sat)</label>
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control" [(ngModel)]="novaRezervacija.termin_do" />
+              </div>
+            </div>
+
+            <div class="col-md-2">
+              <button class="btn btn-primary w-100 fw-bold py-2 shadow-sm" (click)="rezervisi()">
+                Rezervisi
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-5">
+    <div class="col-12">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+          <h4 class="fw-bold text-dark mb-4">Utisci korisnika</h4>
+
+          @if (sveRecenzijeZaObjekat && sveRecenzijeZaObjekat.length > 0) {
+            <div class="d-flex flex-column gap-3">
+              @for (rec of sveRecenzijeZaObjekat; track rec._id) {
+                <div
+                  class="p-3 rounded border shadow-sm"
+                  [ngClass]="
+                    rec.sportista_id._id === ulogovanSportista._id
+                      ? 'border-start border-primary border-4 bg-light'
+                      : 'border-light bg-white'
+                  "
+                >
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <div class="d-flex align-items-center gap-2">
+                      <span class="fw-bold text-secondary small"
+                        >Korisnik "{{ rec.sportista_id.kor_ime }}"</span
+                      >
+
+                      @if (rec.sportista_id._id === ulogovanSportista._id) {
+                        <span
+                          class="badge bg-primary text-white px-2 py-1 rounded-pill small fw-semibold"
+                          >Vas komentar</span
+                        >
+                      }
+                    </div>
+
+                    <div>
+                      @if (rec.reakcija === 'like') {
+                        <span
+                          class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1 rounded fw-bold"
+                          >Preporucuje</span
+                        >
+                      } @else {
+                        <span
+                          class="badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-1 rounded fw-bold"
+                          >Ne preporucuje</span
+                        >
+                      }
+                    </div>
+                  </div>
+
+                  <p class="mb-0 text-dark" style="white-space: pre-line; line-height: 1.5">
+                    {{ rec.komentar }}
+                  </p>
+                </div>
+              }
+            </div>
+          } @else {
+            <div class="text-center py-4 bg-light rounded border border-dashed">
+              <p class="text-muted mb-0">Jos uvek nema ostavljenih komentara za ovaj objekat.</p>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

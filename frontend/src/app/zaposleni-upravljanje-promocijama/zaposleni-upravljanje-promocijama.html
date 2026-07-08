@@ -1,0 +1,205 @@
+<!-- <h2>Kreiranje promocije</h2>
+Naziv: <input type="text" name="" id="" [(ngModel)]="novaPromocija.naziv" /> Objekat:
+<select
+  name=""
+  id=""
+  [(ngModel)]="novaPromocija.objekat_id"
+  (ngModelChange)="azurirajDostupneSportove()"
+>
+  @for (obj of sviAktivniSportskiObjektiZaZaposlenog; track obj.detalji_objekta._id) {
+    <option [value]="obj.detalji_objekta._id">{{ obj.detalji_objekta.naziv }}</option>
+  }
+</select>
+Sport:
+<select name="" id="" [(ngModel)]="novaPromocija.sport">
+  @for (s of dostupniSportoviZaObjekat; track s) {
+    <option [value]="s">{{ s }}</option>
+  }
+</select>
+Datum od: <input type="text" name="" id="" [(ngModel)]="novaPromocija.datum_od" /> Datum do:
+<input type="text" name="" id="" [(ngModel)]="novaPromocija.datum_do" /> Popust:
+<input type="number" name="" id="" [(ngModel)]="novaPromocija.popust" />
+Vrsta popusta:
+<select name="" id="" [(ngModel)]="novaPromocija.vrsta_popusta">
+  <option value="fiksan">Fiksan</option>
+  <option value="procenat">Procenat</option>
+</select>
+<button (click)="kreirajNovu()">Kreiraj promociju</button>
+
+<h2>Azuriranje postojecih promocija</h2>
+@for (p of svePromocijeObjekataZaposlenog; track p._id) {
+  Naziv: <input type="text" name="" id="" [(ngModel)]="p.naziv" />
+  Sport:
+  <span>{{ p.sport }}</span>
+  <select name="" id="" [(ngModel)]="p.sport">
+    @for (s of dohvatiSportoveZaObjekat(p.objekat_id); track s) {
+      <option [value]="s">{{ s }}</option>
+    }
+  </select>
+  Datum od: <input type="text" name="" id="" [(ngModel)]="p.datum_od" /> Datum do:
+  <input type="text" name="" id="" [(ngModel)]="p.datum_do" /> Popust:
+  <span>{{ p.popust }}</span>
+
+  <input type="number" name="" id="" [(ngModel)]="p.popust" />
+  Vrsta popusta:
+  <select name="" id="" [(ngModel)]="p.vrsta_popusta">
+    <option value="fiksan">Fiksan</option>
+    <option value="procenat">Procenat</option>
+  </select>
+  <button (click)="azurirajPostojecu(p)">Azuriraj promociju</button>
+  <br />
+  <br />
+  <hr />
+} -->
+<div class="container mt-4">
+  @if (errMsg) {
+    <div class="alert alert-danger border-0 shadow-sm mb-4 d-flex align-items-center">
+      <span class="fw-semibold">{{ errMsg }}</span>
+    </div>
+  }
+
+  <div class="card mb-4 border-0 shadow-sm">
+    <div class="card-header bg-white py-3 border-0">
+      <h4 class="mb-0 fw-bold text-dark">Kreiranje nove promocije</h4>
+    </div>
+    <div class="card-body bg-light border-top">
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label class="form-label fw-semibold text-muted small">Naziv promocije:</label>
+          <input
+            type="text"
+            class="form-control form-control-sm"
+            [(ngModel)]="novaPromocija.naziv"
+          />
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label fw-semibold text-muted small">Objekat:</label>
+          <select
+            class="form-select form-select-sm"
+            [(ngModel)]="novaPromocija.objekat_id"
+            (ngModelChange)="azurirajDostupneSportove()"
+          >
+            @for (obj of sviAktivniSportskiObjektiZaZaposlenog; let i = $index; track i) {
+              <option [value]="obj.detalji_objekta._id">{{ obj.detalji_objekta.naziv }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label fw-semibold text-muted small">Sport:</label>
+          <select class="form-select form-select-sm" [(ngModel)]="novaPromocija.sport">
+            @for (s of dostupniSportoviZaObjekat; let i = $index; track i) {
+              <option [value]="s">{{ s }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label fw-semibold text-muted small">Datum od:</label>
+          <input
+            type="text"
+            class="form-control form-control-sm"
+            placeholder="YYYY-MM-DD"
+            [(ngModel)]="novaPromocija.datum_od"
+          />
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label fw-semibold text-muted small">Datum do:</label>
+          <input
+            type="text"
+            class="form-control form-control-sm"
+            placeholder="YYYY-MM-DD"
+            [(ngModel)]="novaPromocija.datum_do"
+          />
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label fw-semibold text-muted small">Popust:</label>
+          <input
+            type="number"
+            class="form-control form-control-sm"
+            [(ngModel)]="novaPromocija.popust"
+          />
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label fw-semibold text-muted small">Vrsta popusta:</label>
+          <select class="form-select form-select-sm" [(ngModel)]="novaPromocija.vrsta_popusta">
+            <option value="fiksan">Fiksan</option>
+            <option value="procenat">Procenat</option>
+          </select>
+        </div>
+
+        <div class="col-md-12 text-end mt-3 border-top pt-3">
+          <button class="btn btn-primary btn-sm px-4 fw-semibold" (click)="kreirajNovu()">
+            Kreiraj promociju
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="fw-bold text-dark mt-5 mb-3">Azuriranje postojecih promocija</h2>
+
+  @for (p of svePromocijeObjekataZaposlenog; let i = $index; track i) {
+    @if (errMsgAzuriranje[p._id]) {
+      <div class="alert alert-danger border-0 shadow-sm mb-4 d-flex align-items-center">
+        <span class="fw-semibold">{{ errMsgAzuriranje[p._id] }}</span>
+      </div>
+    }
+    <div class="card mb-4 border-0 shadow-sm">
+      <div class="card-body bg-light">
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label class="form-label fw-semibold text-muted small">Naziv:</label>
+            <input type="text" class="form-control form-control-sm" [(ngModel)]="p.naziv" />
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label fw-semibold text-muted small">
+              Sport <span class="badge bg-primary ms-1 py-1 px-2">Trenutno: {{ p.sport }}</span>
+            </label>
+            <select class="form-select form-select-sm" [(ngModel)]="p.sport">
+              @for (s of dohvatiSportoveZaObjekat(p.objekat_id); let i = $index; track i) {
+                <option [value]="s">{{ s }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label fw-semibold text-muted small">Vrsta popusta:</label>
+            <select class="form-select form-select-sm" [(ngModel)]="p.vrsta_popusta">
+              <option value="fiksan">Fiksan</option>
+              <option value="procenat">Procenat</option>
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label fw-semibold text-muted small">Datum od:</label>
+            <input type="text" class="form-control form-control-sm" [(ngModel)]="p.datum_od" />
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label fw-semibold text-muted small">Datum do:</label>
+            <input type="text" class="form-control form-control-sm" [(ngModel)]="p.datum_do" />
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label fw-semibold text-muted small">
+              Popust <span class="badge bg-primary ms-1 py-1 px-2">Trenutno: {{ p.popust }}</span>
+            </label>
+            <input type="number" class="form-control form-control-sm" [(ngModel)]="p.popust" />
+          </div>
+
+          <div class="col-md-12 text-end mt-3 border-top pt-3">
+            <button class="btn btn-primary btn-sm px-4 fw-semibold" (click)="azurirajPostojecu(p)">
+              Ažuriraj promociju
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>

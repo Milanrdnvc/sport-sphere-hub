@@ -1,0 +1,58 @@
+import { Routes } from '@angular/router';
+import { Login } from './login/login';
+import { AdminLogin } from './admin-login/admin-login';
+import { Register } from './register/register';
+import { Guest } from './guest/guest';
+import { DetaljiObjekta } from './detalji-objekta/detalji-objekta';
+import { SportistaProfil } from './sportista-profil/sportista-profil';
+import { SportistaDetaljiObjekta } from './sportista-detalji-objekta/sportista-detalji-objekta';
+import { SportistaRezervacija } from './sportista-rezervacija/sportista-rezervacija';
+import { SportistaTrening } from './sportista-trening/sportista-trening';
+import { SportistaSaigraci } from './sportista-saigraci/sportista-saigraci';
+import { SportistaProdavnica } from './sportista-prodavnica/sportista-prodavnica';
+import { ZaposleniProfil } from './zaposleni-profil/zaposleni-profil';
+import { ZaposleniUpravljanjeObjektima } from './zaposleni-upravljanje-objektima/zaposleni-upravljanje-objektima';
+import { ZaposleniRezervacije } from './zaposleni-rezervacije/zaposleni-rezervacije';
+import { ZaposleniUpravljanjePromocijama } from './zaposleni-upravljanje-promocijama/zaposleni-upravljanje-promocijama';
+import { ZaposleniUpravljanjeOpremom } from './zaposleni-upravljanje-opremom/zaposleni-upravljanje-opremom';
+import { ZaposleniKalendar } from './zaposleni-kalendar/zaposleni-kalendar';
+import { AdminUpravljanjeKorisnicima } from './admin-upravljanje-korisnicima/admin-upravljanje-korisnicima';
+import { AdminZahteviZaRegistraciju } from './admin-zahtevi-za-registraciju/admin-zahtevi-za-registraciju';
+import { AdminUpravljanjeObjektima } from './admin-upravljanje-objektima/admin-upravljanje-objektima';
+import { AdminUpravljanjeTrenera } from './admin-upravljanje-trenera/admin-upravljanje-trenera';
+import { AdminUpravljanjeSportova } from './admin-upravljanje-sportova/admin-upravljanje-sportova';
+import { ZaposleniIzvestaji } from './zaposleni-izvestaji/zaposleni-izvestaji';
+import { ResetLozinke } from './reset-lozinke/reset-lozinke';
+import { ResetLozinkeLink } from './reset-lozinke-link/reset-lozinke-link';
+import { SportistaOcene } from './sportista-ocene/sportista-ocene';
+import { SportistaStatistika } from './sportista-statistika/sportista-statistika';
+
+export const routes: Routes = [
+  { path: 'login', component: Login },
+  { path: 'admin-login', component: AdminLogin },
+  { path: 'register', component: Register },
+  { path: 'guest', component: Guest },
+  { path: 'detalji-objekta', component: DetaljiObjekta },
+  { path: 'sportista-profil', component: SportistaProfil },
+  { path: 'sportista-rezervacija', component: SportistaRezervacija },
+  { path: 'sportista-detalji-objekta', component: SportistaDetaljiObjekta },
+  { path: 'sportista-saigraci', component: SportistaSaigraci },
+  { path: 'sportista-trening', component: SportistaTrening },
+  { path: 'sportista-prodavnica', component: SportistaProdavnica },
+  { path: 'sportista-ocene', component: SportistaOcene },
+  { path: 'sportista-statistika', component: SportistaStatistika },
+  { path: 'zaposleni-profil', component: ZaposleniProfil },
+  { path: 'zaposleni-upravljanje-objektima', component: ZaposleniUpravljanjeObjektima },
+  { path: 'zaposleni-rezervacije', component: ZaposleniRezervacije },
+  { path: 'zaposleni-upravljanje-promocijama', component: ZaposleniUpravljanjePromocijama },
+  { path: 'zaposleni-upravljanje-opremom', component: ZaposleniUpravljanjeOpremom },
+  { path: 'zaposleni-kalendar', component: ZaposleniKalendar },
+  { path: 'zaposleni-izvestaji', component: ZaposleniIzvestaji },
+  { path: 'admin-upravljanje-korisnicima', component: AdminUpravljanjeKorisnicima },
+  { path: 'admin-zahtevi-za-registraciju', component: AdminZahteviZaRegistraciju },
+  { path: 'admin-upravljanje-objektima', component: AdminUpravljanjeObjektima },
+  { path: 'admin-upravljanje-trenera', component: AdminUpravljanjeTrenera },
+  { path: 'admin-upravljanje-sportova', component: AdminUpravljanjeSportova },
+  { path: 'reset-lozinke', component: ResetLozinke },
+  { path: 'reset-lozinke-link/:token', component: ResetLozinkeLink },
+];

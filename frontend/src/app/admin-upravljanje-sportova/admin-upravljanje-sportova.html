@@ -1,0 +1,66 @@
+<!-- <h2>Pregled i brisanje sportova</h2>
+<table>
+  <tr>
+    <th>Naziv</th>
+  </tr>
+  @for (s of sviSportovi; track s.naziv) {
+    <tr>
+      <td>{{ s.naziv }}</td>
+      <td><button (click)="obrisi(s._id)">Obrisi</button></td>
+    </tr>
+  }
+</table>
+
+<h2>Dodavanje sporta</h2>
+Naziv <input type="text" name="" id="" [(ngModel)]="noviSport.naziv" />
+<button (click)="kreiraj()">Dodaj novi sport</button> -->
+<div class="container mt-4">
+  <h2 class="fw-bold text-dark mb-4">Pregled i brisanje sportova</h2>
+
+  <div class="table-responsive shadow-sm rounded mb-5">
+    <table class="table table-hover align-middle mb-0 bg-white">
+      <thead class="table-light">
+        <tr>
+          <th class="ps-4">Naziv</th>
+          <th class="text-end pe-4">Akcije</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (s of sviSportovi; track s.naziv) {
+          <tr>
+            <td class="ps-4 fw-semibold text-dark">{{ s.naziv }}</td>
+            <td class="text-end pe-4">
+              <button class="btn btn-primary btn-sm fw-semibold" (click)="obrisi(s._id)">
+                Obrisi
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="fw-bold text-dark mb-4">Dodavanje sporta</h2>
+
+  <div class="card border-0 shadow-sm bg-light p-4 mb-4">
+    <div class="row g-3">
+      <div class="col-md-12">
+        <label class="form-label fw-semibold text-muted small">Naziv:</label>
+        <input type="text" class="form-control form-control-sm" [(ngModel)]="noviSport.naziv" />
+      </div>
+
+      <div class="col-md-12 text-end mt-3 d-flex align-items-center justify-content-between">
+        <div>
+          @if (errMsg) {
+            <span class="text-danger fw-semibold small bg-white px-2 py-1">
+              {{ errMsg }}
+            </span>
+          }
+        </div>
+        <button class="btn btn-primary btn-sm px-4 fw-semibold" (click)="kreiraj()">
+          Dodaj novi sport
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

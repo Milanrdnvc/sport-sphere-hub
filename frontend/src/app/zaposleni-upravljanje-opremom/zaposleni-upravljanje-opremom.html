@@ -1,0 +1,271 @@
+<!-- <h2>Kreiranje opreme</h2>
+Naziv: <input type="text" name="" id="" [(ngModel)]="novaOprema.naziv" /> Objekat:
+<select name="" id="" [(ngModel)]="novaOprema.objekat_id">
+  @for (o of sviAktivniObjektiZaposlenog; track o.detalji_objekta._id) {
+    <option [value]="o.detalji_objekta._id">{{ o.detalji_objekta.naziv }}</option>
+  }
+</select>
+Sport:
+<select name="" id="" [(ngModel)]="novaOprema.vrsta_sporta">
+  @for (s of sviSportovi; track s) {
+    <option [value]="s">{{ s }}</option>
+  }
+</select>
+Cena: <input type="number" name="" id="" [(ngModel)]="novaOprema.cena" /> Zalihe:
+<input type="number" name="" id="" [(ngModel)]="novaOprema.zalihe" />
+Slika: <input type="file" (change)="izaberiSliku($event)" accept=".jpg,.png" />
+<img
+  [src]="izabranaSlikaPrikaz"
+  [alt]="izabranaSlikaPrikaz"
+  (click)="ukloniPrikaz()"
+  style="cursor: pointer"
+/>
+<button (click)="kreirajNovu()">Kreiraj novu</button>
+
+<h2>Azuriranje postojece opreme</h2>
+
+@for (o of svaOpremaZaObjekteZaposlenog; track o._id) {
+  <p>Naziv: {{ o.naziv }}</p>
+  <p>Objekat: {{ o.objekat_id.naziv }}</p>
+  <p>Sport: {{ o.vrsta_sporta }}</p>
+  Cena: <input type="number" name="" id="" [(ngModel)]="o.cena" /> Zalihe:
+  <input type="number" name="" id="" [(ngModel)]="o.zalihe" />
+  <img [src]="o.slika" [alt]="o.slika" />
+  <button (click)="azurirajPostojecu(o)">Azuriraj</button>
+}
+
+<h2>Upravljanje narudzbinama</h2>
+<table>
+  <tr>
+    <th>Redni broj</th>
+    <th>Stavke</th>
+    <th>Status</th>
+  </tr>
+  @for (n of sveNarudzbineObjekataZaposlenog; track n._id; let i = $index) {
+    <tr>
+      <td>{{ i + 1 }}</td>
+
+      <ul>
+        @for (s of n.stavke; track s.artikal_id) {
+          <li>{{ s.naziv }} - {{ s.cena_u_trenutku_kupovine * s.kolicina }}e</li>
+        }
+      </ul>
+
+      @if (n.status == 'naruceno') {
+        <td><button (click)="prihvati(n)">Prihvati</button></td>
+      } @else if (n.status == 'prihvaceno') {
+        <td><button (click)="preuzeto(n)">Preuzeto</button></td>
+      } @else {
+        <td>{{ n.status }}</td>
+      }
+    </tr>
+  }
+</table>
+
+
+ <table>
+  <tr>
+    <th>Artikal</th>
+    <th>Kolicina</th>
+    <th>Cena u trenutku kupovine</th>
+    <th>Status</th>
+  </tr>
+  @for (n of sveNarudzbineObjekataZaposlenog; track n._id) {
+    <tr>
+      <td>{{ n.artikal_id.naziv }}</td>
+      <td>{{ n.kolicina }}</td>
+      <td>{{ n.cena_u_trenutku_kupovine }}</td>
+      @if (n.status == 'naruceno') {
+        <td><button (click)="prihvati(n)">Prihvati</button></td>
+      } @else if (n.status == 'prihvaceno') {
+        <td><button (click)="preuzeto(n)">Preuzeto</button></td>
+      } @else {
+        <td>{{ n.status }}</td>
+      }
+    </tr>
+  }
+</table>  -->
+
+<div class="container mt-4">
+  @if (errMsg) {
+    <div class="alert alert-danger border-0 shadow-sm mb-4 d-flex align-items-center">
+      <span class="fw-semibold">{{ errMsg }}</span>
+    </div>
+  }
+  <div class="card mb-4 border-0 shadow-sm">
+    <div class="card-header bg-white py-3 border-0">
+      <h4 class="mb-0 fw-bold text-dark">Kreiranje nove opreme</h4>
+    </div>
+    <div class="card-body bg-light border-top">
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label class="form-label fw-semibold text-muted small">Naziv opreme:</label>
+          <input type="text" class="form-control form-control-sm" [(ngModel)]="novaOprema.naziv" />
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label fw-semibold text-muted small">Objekat:</label>
+          <select class="form-select form-select-sm" [(ngModel)]="novaOprema.objekat_id">
+            @for (o of sviAktivniObjektiZaposlenog; track o.detalji_objekta._id) {
+              <option [value]="o.detalji_objekta._id">{{ o.detalji_objekta.naziv }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label fw-semibold text-muted small">Sport:</label>
+          <select class="form-select form-select-sm" [(ngModel)]="novaOprema.vrsta_sporta">
+            @for (s of sviSportovi; track s) {
+              <option [value]="s">{{ s }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label fw-semibold text-muted small">Cena (€):</label>
+          <input type="number" class="form-control form-control-sm" [(ngModel)]="novaOprema.cena" />
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label fw-semibold text-muted small">Zalihe :</label>
+          <input
+            type="number"
+            class="form-control form-control-sm"
+            [(ngModel)]="novaOprema.zalihe"
+          />
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label fw-semibold text-muted small">Slika artikla:</label>
+          <input
+            type="file"
+            class="form-control form-control-sm mb-2"
+            (change)="izaberiSliku($event)"
+            accept=".jpg,.png"
+          />
+          <img
+            [src]="izabranaSlikaPrikaz"
+            [alt]="izabranaSlikaPrikaz"
+            (click)="ukloniPrikaz()"
+            class="img-thumbnail rounded shadow-sm d-block"
+            style="cursor: pointer; max-height: 100px"
+          />
+        </div>
+
+        <div class="col-md-12 text-end mt-3 border-top pt-3">
+          <button class="btn btn-primary btn-sm px-4 fw-semibold" (click)="kreirajNovu()">
+            Kreiraj novu opremu
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h4 class="fw-bold text-dark mt-5 mb-3">Azuriranje postojece opreme</h4>
+
+  @for (o of svaOpremaZaObjekteZaposlenog; track o._id) {
+    @if (errMsgAzuriranje[o._id]) {
+      <div class="alert alert-danger border-0 shadow-sm mb-3 d-flex align-items-center">
+        <span class="fw-semibold">{{ errMsgAzuriranje[o._id] }}</span>
+      </div>
+    }
+    <div class="card mb-3 border-0 shadow-sm">
+      <div class="card-body bg-light">
+        <div class="row g-3 align-items-center">
+          <div class="col-md-3">
+            <span class="fw-semibold text-muted small d-block">Naziv opreme:</span>
+            <span class="fw-bold text-dark">{{ o.naziv }}</span>
+          </div>
+
+          <div class="col-md-2">
+            <span class="fw-semibold text-muted small d-block">Sport:</span>
+            <span class="badge bg-primary px-2 py-1">{{ o.vrsta_sporta }}</span>
+          </div>
+
+          <div class="col-md-2">
+            <label class="form-label fw-semibold text-muted small mb-1">Cena (€):</label>
+            <input type="number" class="form-control form-control-sm" [(ngModel)]="o.cena" />
+          </div>
+
+          <div class="col-md-2">
+            <label class="form-label fw-semibold text-muted small mb-1">Zalihe:</label>
+            <input type="number" class="form-control form-control-sm" [(ngModel)]="o.zalihe" />
+          </div>
+
+          <div class="col-md-1 text-center">
+            @if (o.slika) {
+              <img
+                [src]="'http://localhost:4000' + o.slika"
+                [alt]="o.slika"
+                class="img-thumbnail rounded"
+                style="max-height: 55px; object-fit: cover"
+              />
+            } @else {
+              /
+            }
+          </div>
+
+          <div class="col-md-2 text-end">
+            <button class="btn btn-primary btn-sm w-100 fw-semibold" (click)="azurirajPostojecu(o)">
+              Azuriraj
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+  <div class="card border-0 shadow-sm mt-5 mb-5">
+    <div class="card-header bg-white py-3 border-0">
+      <h4 class="mb-0 fw-bold text-dark">Upravljanje narudzbinama</h4>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light text-muted small">
+          <tr>
+            <th class="border-0 px-4">Redni broj</th>
+            <th class="border-0">Stavke narudzbine</th>
+            <th class="border-0 text-end px-4">Status / Akcija</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (n of sveNarudzbineObjekataZaposlenog; track n._id; let i = $index) {
+            <tr>
+              <td class="px-4 fw-bold text-muted" style="width: 15%">#{{ i + 1 }}</td>
+              <td>
+                <ul class="mb-0 list-unstyled ps-0">
+                  @for (s of n.stavke; track s.artikal_id) {
+                    <li class="small text-dark mb-1">
+                      <span class="fw-semibold">{{ s.naziv }}</span>
+                      <span class="text-muted"> ({{ s.kolicina }})</span>
+                      -
+                      <span class="fw-medium">{{ s.cena_u_trenutku_kupovine * s.kolicina }}€</span>
+                    </li>
+                  }
+                </ul>
+              </td>
+              <td class="text-end px-4" style="width: 20%">
+                @if (n.status == 'naruceno') {
+                  <button class="btn btn-primary btn-sm fw-semibold px-3" (click)="prihvati(n)">
+                    Prihvati
+                  </button>
+                } @else if (n.status == 'prihvaceno') {
+                  <button
+                    class="btn btn-primary btn-sm text-white fw-semibold px-3"
+                    (click)="preuzeto(n)"
+                  >
+                    Preuzeto
+                  </button>
+                } @else {
+                  <span class="px-3 py-2 fw-semibold">
+                    {{ n.status }}
+                  </span>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

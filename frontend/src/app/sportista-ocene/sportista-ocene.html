@@ -1,0 +1,72 @@
+<!-- <h2>Oceni sportski objekat</h2>
+
+Izaberi sportski objekat:
+
+<select name="" id="" [(ngModel)]="objekat_id">
+  @for (obj of sviAktivniObjekti; let i = $index; track i) {
+    <option [value]="obj.detalji_objekta._id">{{ obj.detalji_objekta.naziv }}</option>
+  }
+</select>
+
+Komentar: <textarea name="" id="" maxlength="300" [(ngModel)]="komentar"></textarea> Like:
+<input type="radio" name="like-dislike" id="" value="like" [(ngModel)]="like" /> Dislike:
+<input type="radio" name="like-dislike" id="" [(ngModel)]="dislike" />
+<button (click)="ostaviRecenziju()">Ostavi recenziju</button>
+
+<span>{{ errMsg }}</span> -->
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh">
+  <div class="card p-4 shadow-sm" style="width: 100%; max-width: 450px">
+    <h3 class="text-center mb-4 fw-bold text-primary">Oceni sportski objekat</h3>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Izaberite sportski objekat</label>
+      <select class="form-select" [(ngModel)]="objekat_id">
+        @for (obj of sviAktivniObjekti; let i = $index; track i) {
+          <option [value]="obj.detalji_objekta._id">{{ obj.detalji_objekta.naziv }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold d-block">Vasa reakcija</label>
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="like-dislike"
+          id="likeRadio"
+          value="like"
+          [(ngModel)]="like"
+        />
+        <label class="form-check-label fw-medium" for="likeRadio">Svidja mi se</label>
+      </div>
+
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="like-dislike"
+          id="dislikeRadio"
+          value="dislike"
+          [(ngModel)]="dislike"
+        />
+        <label class="form-check-label fw-medium" for="dislikeRadio">Ne svidja mi se</label>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Komentar</label>
+      <textarea class="form-control" rows="4" maxlength="300" [(ngModel)]="komentar"></textarea>
+    </div>
+
+    @if (errMsg) {
+      <div class="alert alert-danger py-2 text-center small mb-3" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ errMsg }}
+      </div>
+    }
+
+    <button class="btn btn-primary w-100 fw-bold py-2 mt-2" (click)="ostaviRecenziju()">
+      Ostavi recenziju
+    </button>
+  </div>
+</div>

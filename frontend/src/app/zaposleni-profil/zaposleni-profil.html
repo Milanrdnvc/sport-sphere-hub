@@ -1,0 +1,229 @@
+<!-- <h2>Licni podaci</h2>
+
+Korisnicko ime:
+<input
+  type="text"
+  name=""
+  id=""
+  placeholder="Korisnicko ime"
+  disabled
+  [(ngModel)]="ulogovanZaposleni.kor_ime"
+/>
+Lozinka (OVO MOZDA NI NE TREBA)
+<input type="password" name="" id="" placeholder="Lozinka" [(ngModel)]="novaLozinka" />
+Ime:
+<input type="text" name="" id="" placeholder="Ime" [(ngModel)]="ulogovanZaposleni.ime" />
+Prezime:
+<input type="text" name="" id="" placeholder="Prezime" [(ngModel)]="ulogovanZaposleni.prezime" />
+E-mail:
+<input type="email" name="" id="" placeholder="E-mail" [(ngModel)]="ulogovanZaposleni.email" />
+Kontakt telefon:
+<input
+  type="text"
+  name=""
+  id=""
+  placeholder="Kontakt telefon"
+  [(ngModel)]="ulogovanZaposleni.kontakt_telefon"
+/>
+Profilna slika:
+<img [src]="this.ulogovanZaposleni.pfp" alt="this.ulogovanZaposleni.pfp" />
+<input type="file" (change)="izaberiSliku($event)" accept=".jpg,.png" />
+<button (click)="azurirajProfil()">Azuriraj profil</button>
+<span style="color: red">{{ errMsg }}</span>
+
+<h2>Objekti koje pravno lice vodi</h2>
+<table>
+  <tr>
+    <th>Naziv</th>
+    <th>Grad</th>
+    <th>Sportovi</th>
+    <th>Elementi</th>
+  </tr>
+  @for (obj of aktivniSportskiObjektiZaposlenog; track obj.detalji_objekta._id) {
+    <tr>
+      <td>{{ obj.detalji_objekta.naziv }}</td>
+      <td>{{ obj.detalji_objekta.grad }}</td>
+      <td>
+        <ul>
+          @for (sp of obj.detalji_objekta.vrste_sportova; track sp) {
+            <li>{{ sp }}</li>
+          }
+        </ul>
+      </td>
+      <td>
+        <ul>
+          @for (el of obj.detalji_objekta.elementi; track el._id) {
+            <li>{{ el.naziv }}</li>
+          }
+        </ul>
+      </td>
+    </tr>
+  }
+</table> -->
+<div class="container mt-4">
+  <div class="card mb-4 border-0 shadow-sm">
+    <div class="card-header bg-white py-3 border-0">
+      <h4 class="mb-0 fw-bold text-dark">Licni podaci</h4>
+    </div>
+    <div class="card-body bg-light border-top">
+      <div class="row g-4">
+        <div class="col-md-3 text-center border-end">
+          <div class="mb-3">
+            <img
+              [src]="this.ulogovanZaposleniPfp"
+              alt="Profilna slika"
+              class="img-fluid rounded-circle border shadow-sm"
+              style="width: 130px; height: 130px; object-fit: cover"
+            />
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold text-muted small d-block"
+              >Promeni profilnu sliku</label
+            >
+            <input
+              type="file"
+              class="form-control form-control-sm"
+              (change)="izaberiSliku($event)"
+              accept=".jpg,.png"
+            />
+          </div>
+        </div>
+
+        <div class="col-md-9">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label fw-semibold text-muted small">Korisnicko ime</label>
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                disabled
+                placeholder="Korisnicko ime"
+                [(ngModel)]="ulogovanZaposleni.kor_ime"
+              />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fw-semibold text-muted small">Nova lozinka</label>
+              <input
+                type="password"
+                class="form-control form-control-sm"
+                placeholder="Lozinka"
+                [(ngModel)]="novaLozinka"
+              />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fw-semibold text-muted small">Ime</label>
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                placeholder="Ime"
+                [(ngModel)]="ulogovanZaposleni.ime"
+              />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fw-semibold text-muted small">Prezime</label>
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                placeholder="Prezime"
+                [(ngModel)]="ulogovanZaposleni.prezime"
+              />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fw-semibold text-muted small">E-mail</label>
+              <input
+                type="email"
+                class="form-control form-control-sm"
+                placeholder="E-mail"
+                [(ngModel)]="ulogovanZaposleni.email"
+              />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fw-semibold text-muted small">Kontakt telefon</label>
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                placeholder="Kontakt telefon"
+                [(ngModel)]="ulogovanZaposleni.kontakt_telefon"
+              />
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <label class="form-label fw-semibold text-muted small d-block">Omiljeni sportovi</label>
+            <div class="mb-2">
+              @for (s of ulogovanZaposleni.sportovi; let i = $index; track i) {
+                <span class="badge bg-primary rounded-pill me-1 px-2.5 py-1.5">{{ s }}</span>
+              }
+            </div>
+            <select
+              class="form-select form-select-sm"
+              multiple
+              [(ngModel)]="ulogovanZaposleni.sportovi"
+              (ngModelChange)="proveriLimitSportova($event)"
+            >
+              @for (s of dostupniSportovi; track s.naziv) {
+                <option [value]="s.naziv">{{ s.naziv }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="mt-4 d-flex align-items-center justify-content-between">
+            <button class="btn btn-primary btn-sm px-4 fw-semibold" (click)="azurirajProfil()">
+              Azuriraj profil
+            </button>
+            @if (errMsg) {
+              <span class="text-danger small fw-semibold">{{ errMsg }}</span>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-4 border-0 shadow-sm">
+    <div class="card-header bg-white py-3 border-0">
+      <h4 class="mb-0 fw-bold text-dark">Objekti koje pravno lice vodi</h4>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light small text-muted">
+            <tr>
+              <th class="ps-4">Naziv</th>
+              <th>Grad</th>
+              <th>Sportovi</th>
+              <th class="pe-4">Elementi</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (obj of aktivniSportskiObjektiZaposlenog; track obj.detalji_objekta._id) {
+              <tr>
+                <td class="ps-4 fw-semibold text-dark">{{ obj.detalji_objekta.naziv }}</td>
+                <td>{{ obj.detalji_objekta.grad }}</td>
+                <td>
+                  <ul class="list-unstyled mb-0 py-1">
+                    @for (sp of obj.detalji_objekta.vrste_sportova; track sp) {
+                      <li class="small mb-1"><span class="me-1">•</span> {{ sp }}</li>
+                    }
+                  </ul>
+                </td>
+                <td class="pe-4">
+                  <ul class="list-unstyled mb-0 py-1">
+                    @for (el of obj.detalji_objekta.elementi; track el._id) {
+                      <li class="small mb-1"><span class="me-1">•</span> {{ el.naziv }}</li>
+                    }
+                  </ul>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

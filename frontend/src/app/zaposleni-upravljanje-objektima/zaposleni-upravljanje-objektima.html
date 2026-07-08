@@ -1,0 +1,625 @@
+<!-- <h2>Dodavanje novog objekta</h2>
+Naziv: <input type="text" name="" id="" [(ngModel)]="noviObjekat.naziv" /> Grad:
+<input type="text" name="" id="" [(ngModel)]="noviObjekat.grad" /> Adresa:
+<input type="text" name="" id="" [(ngModel)]="noviObjekat.adresa" /> Maticni broj:
+<input type="text" name="" id="" [(ngModel)]="noviObjekat.maticni_broj" /> PIB:
+<input type="text" name="" id="" [(ngModel)]="noviObjekat.pib" />
+Radno vreme od: <input type="number" name="" id="" [(ngModel)]="noviObjekat.radno_vreme_od" /> Radno
+vreme do:
+<input type="number" name="" id="" [(ngModel)]="noviObjekat.radno_vreme_do" />
+Broj dozvoljenih kazni:
+<input type="number" name="" id="" [(ngModel)]="noviObjekat.broj_dozvoljenih_kazni" /> Cenovnik po
+satu:
+<input type="number" name="" id="" [(ngModel)]="noviObjekat.cenovnik_po_satu" />
+Duzi opis
+<textarea type="" name="" id="" maxlength="300" [(ngModel)]="noviObjekat.duzi_opis"></textarea>
+Vrste sportova:<select name="" id="" multiple [(ngModel)]="noviObjekat.vrste_sportova">
+  @for (s of sviSportovi; track s) {
+    <option [value]="s">{{ s }}</option>
+  }
+</select>
+Galerija:
+<input
+  type="file"
+  multiple
+  accept="image/*"
+  class="form-control"
+  (change)="izaberiSlikeZaGaleriju($event)"
+/>
+@for (s of slikePrikaz; track s; let i = $index) {
+  <img [src]="s" alt="" (click)="ukloniPrikaz(i)" style="cursor: pointer" />
+}
+<h2>Dodavanje elemenata:</h2>
+@for (el of elementi; track el) {
+  Naziv: <input type="text" name="" id="" [(ngModel)]="el.naziv" />
+  <select name="" id="" [(ngModel)]="el.tip">
+    <option value="otvoreni_teren">Otvoreni teren</option>
+    <option value="zatvorena_hala">Zatvorena hala</option>
+    <option value="dvorana">Dvorana</option>
+  </select>
+  Sport:
+  <select name="" id="" multiple [(ngModel)]="el.podrzani_sportovi">
+    @for (s of sviSportovi; track s) {
+      <option [value]="s">{{ s }}</option>
+    }
+  </select>
+  Kapacitet <input type="number" name="" id="" [(ngModel)]="el.kapacitet" /> Opis opreme<textarea
+    name=""
+    id=""
+    maxlength="300"
+  ></textarea>
+  <br />
+}
+
+<button (click)="dodajElement()">Dodaj element</button><br /><br />
+
+<button (click)="kreirajNovi()">Kreiraj novi objekat</button>
+
+<h2>Dodavanje elemenata preko JSON fajla</h2>
+<input type="file" accept=".json" (change)="ucitajObjekteIzJSONFajla($event)" />
+<button (click)="kreirajNoviJSON()">Kreiraj novi objekat (JSON)</button>
+
+<h2>Azuriranje postojecih objekata</h2>
+@for (obj of sviAktivniObjektiZaposlenog; track obj.detalji_objekta._id) {
+  Naziv: <input type="text" name="" id="" [(ngModel)]="obj.detalji_objekta.naziv" /> Grad:
+  <input type="text" name="" id="" [(ngModel)]="obj.detalji_objekta.grad" /> Adresa:
+  <input type="text" name="" id="" [(ngModel)]="obj.detalji_objekta.adresa" /> Maticni broj:
+  <input type="text" name="" id="" [(ngModel)]="obj.detalji_objekta.maticni_broj" /> PIB:
+  <input type="text" name="" id="" [(ngModel)]="obj.detalji_objekta.pib" />
+  Radno vreme od:
+  <input type="number" name="" id="" [(ngModel)]="obj.detalji_objekta.radno_vreme_od" /> Radno vreme
+  do:
+  <input type="number" name="" id="" [(ngModel)]="obj.detalji_objekta.radno_vreme_do" />
+  Broj dozvoljenih kazni:
+  <input type="number" name="" id="" [(ngModel)]="obj.detalji_objekta.broj_dozvoljenih_kazni" />
+  Cenovnik po satu:
+  <input type="number" name="" id="" [(ngModel)]="obj.detalji_objekta.cenovnik_po_satu" />
+  Duzi opis
+  <textarea
+    type=""
+    name=""
+    id=""
+    maxlength="300"
+    [(ngModel)]="obj.detalji_objekta.duzi_opis"
+  ></textarea>
+
+  Vrste sportova:
+  @for (s of obj.detalji_objekta.vrste_sportova; track s) {
+    <span>{{ s }}</span>
+  }
+
+  <select name="" id="" multiple [(ngModel)]="obj.detalji_objekta.vrste_sportova">
+    @for (s of sviSportovi; track s) {
+      <option [value]="s">{{ s }}</option>
+    }
+  </select>
+  <div>
+    Galerija:
+    <input
+      type="file"
+      multiple
+      accept="image/*"
+      class="form-control"
+      (change)="izaberiSlikuZaGalerijuPriAzuriranju($event, obj.detalji_objekta)"
+    />
+    @for (s of noveSlikeAzuriranjePrikaz[obj.detalji_objekta._id]; track s; let i = $index) {
+      <img
+        [src]="s"
+        [alt]="s"
+        (click)="ukloniPrikazPriAzuriranjuNoveSlike(obj.detalji_objekta, i)"
+        style="cursor: pointer"
+      />
+    }
+    @for (s of obj.detalji_objekta.galerija; track s; let i = $index) {
+      <img
+        [src]="'http://localhost:4000/slike/' + s"
+        [alt]="'http://localhost:4000/slike/' + s"
+        (click)="ukloniPrikazPriAzuriranju(obj.detalji_objekta, i)"
+        style="cursor: pointer"
+      />
+    }
+  </div>
+  <h3>Azuriranje elemenata:</h3>
+  @for (el of obj.detalji_objekta.elementi; track el._id) {
+    Naziv: <input type="text" name="" id="" [(ngModel)]="el.naziv" />
+    <select name="" id="" [(ngModel)]="el.tip">
+      <option value="otvoreni_teren">Otvoreni teren</option>
+      <option value="zatvorena_hala">Zatvorena hala</option>
+      <option value="dvorana">Dvorana</option>
+    </select>
+    Sport:
+    @for (s of el.podrzani_sportovi; track s) {
+      <span>{{ s }}</span>
+    }
+    <select name="" id="" multiple [(ngModel)]="el.podrzani_sportovi">
+      @for (s of sviSportovi; track s) {
+        <option [value]="s">{{ s }}</option>
+      }
+    </select>
+    Kapacitet <input type="number" name="" id="" [(ngModel)]="el.kapacitet" /> Opis opreme<textarea
+      name=""
+      id=""
+      maxlength="300"
+      [(ngModel)]="el.opis_opreme"
+    ></textarea>
+  }
+  <button (click)="dodajElementPriAzuriranju(obj.detalji_objekta)">Dodaj element</button
+  ><br /><br />
+
+  <br />
+  <br />
+  <button (click)="azurirajPostojeci(obj.detalji_objekta)">Azuriraj objekat</button>
+  <hr />
+} -->
+<div class="container mt-4">
+  @if (errMsg) {
+    <div class="alert alert-danger border-0 shadow-sm mb-4 d-flex align-items-center">
+      <span class="fw-semibold">{{ errMsg }}</span>
+    </div>
+  }
+  <div class="card mb-4 border-0 shadow-sm">
+    <div class="card-header bg-white py-3 border-0">
+      <h4 class="mb-0 fw-bold text-dark">Dodavanje novog objekta</h4>
+    </div>
+    <div class="card-body bg-light border-top">
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label class="form-label fw-semibold text-muted small">Naziv:</label>
+          <input type="text" class="form-control form-control-sm" [(ngModel)]="noviObjekat.naziv" />
+        </div>
+        <div class="col-md-4">
+          <label class="form-label fw-semibold text-muted small">Grad:</label>
+          <input type="text" class="form-control form-control-sm" [(ngModel)]="noviObjekat.grad" />
+        </div>
+        <div class="col-md-4">
+          <label class="form-label fw-semibold text-muted small">Adresa:</label>
+          <input
+            type="text"
+            class="form-control form-control-sm"
+            [(ngModel)]="noviObjekat.adresa"
+          />
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label fw-semibold text-muted small">Maticni broj:</label>
+          <input
+            type="text"
+            class="form-control form-control-sm"
+            [(ngModel)]="noviObjekat.maticni_broj"
+          />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label fw-semibold text-muted small">PIB:</label>
+          <input type="text" class="form-control form-control-sm" [(ngModel)]="noviObjekat.pib" />
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label fw-semibold text-muted small">Latituda:</label>
+          <input type="number" class="form-control form-control-sm" [(ngModel)]="noviObjekat.lat" />
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label fw-semibold text-muted small">Longituda:</label>
+          <input type="number" class="form-control form-control-sm" [(ngModel)]="noviObjekat.lon" />
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label fw-semibold text-muted small">Radno vreme od:</label>
+          <input
+            type="number"
+            class="form-control form-control-sm"
+            [(ngModel)]="noviObjekat.radno_vreme_od"
+          />
+        </div>
+        <div class="col-md-3">
+          <label class="form-label fw-semibold text-muted small">Radno vreme do:</label>
+          <input
+            type="number"
+            class="form-control form-control-sm"
+            [(ngModel)]="noviObjekat.radno_vreme_do"
+          />
+        </div>
+        <div class="col-md-3">
+          <label class="form-label fw-semibold text-muted small">Broj dozvoljenih kazni:</label>
+          <input
+            type="number"
+            class="form-control form-control-sm"
+            [(ngModel)]="noviObjekat.broj_dozvoljenih_kazni"
+          />
+        </div>
+        <div class="col-md-3">
+          <label class="form-label fw-semibold text-muted small">Cenovnik po satu:</label>
+          <input
+            type="number"
+            class="form-control form-control-sm"
+            [(ngModel)]="noviObjekat.cenovnik_po_satu"
+          />
+        </div>
+
+        <div class="col-md-12">
+          <label class="form-label fw-semibold text-muted small">Duzi opis</label>
+          <textarea
+            class="form-control form-control-sm"
+            maxlength="300"
+            [(ngModel)]="noviObjekat.duzi_opis"
+          ></textarea>
+        </div>
+
+        <div class="col-md-12">
+          <label class="form-label fw-semibold text-muted small">Vrste sportova:</label>
+          <select
+            class="form-select form-select-sm"
+            multiple
+            [(ngModel)]="noviObjekat.vrste_sportova"
+          >
+            @for (s of sviSportovi; let i = $index; track i) {
+              <option [value]="s">{{ s }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="col-md-12">
+          <label class="form-label fw-semibold text-muted small">Galerija:</label>
+          <input
+            type="file"
+            multiple
+            accept="image/*"
+            class="form-control form-control-sm mb-2"
+            (change)="izaberiSlikeZaGaleriju($event)"
+          />
+          <div class="d-flex flex-wrap gap-2">
+            @for (s of slikePrikaz; let i = $index; track i) {
+              <img
+                [src]="s"
+                alt=""
+                (click)="ukloniPrikaz(i)"
+                class="img-thumbnail"
+                style="width: 80px; height: 80px; object-fit: cover; cursor: pointer"
+              />
+            }
+          </div>
+        </div>
+
+        <div class="col-md-12 mt-4">
+          <h5 class="fw-bold text-secondary border-bottom pb-2">Dodavanje elemenata:</h5>
+
+          @for (el of elementi; let i = $index; track i) {
+            <div class="bg-white p-3 rounded border mb-3">
+              <div class="row g-3">
+                <div class="col-md-4">
+                  <label class="form-label fw-semibold text-muted small">Naziv:</label>
+                  <input type="text" class="form-control form-control-sm" [(ngModel)]="el.naziv" />
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label fw-semibold text-muted small">Tip:</label>
+                  <select class="form-select form-select-sm" [(ngModel)]="el.tip">
+                    <option value="otvoreni_teren">Otvoreni teren</option>
+                    <option value="zatvorena_hala">Zatvorena hala</option>
+                    <option value="dvorana">Dvorana</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label fw-semibold text-muted small">Kapacitet:</label>
+                  <input
+                    type="number"
+                    class="form-control form-control-sm"
+                    [(ngModel)]="el.kapacitet"
+                  />
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold text-muted small">Sport:</label>
+                  <select
+                    class="form-select form-select-sm"
+                    multiple
+                    [(ngModel)]="el.podrzani_sportovi"
+                  >
+                    @for (s of sviSportovi; let i = $index; track i) {
+                      <option [value]="s">{{ s }}</option>
+                    }
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold text-muted small">Opis opreme</label>
+                  <textarea
+                    class="form-control form-control-sm"
+                    maxlength="300"
+                    [(ngModel)]="el.opis_opreme"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          }
+
+          <button class="btn btn-outline-primary btn-sm fw-semibold" (click)="dodajElement()">
+            Dodaj element
+          </button>
+        </div>
+
+        <div class="col-md-12 text-end mt-3 border-top pt-3">
+          <button class="btn btn-primary btn-sm px-4 fw-semibold" (click)="kreirajNovi()">
+            Kreiraj novi objekat
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-4 border-0 shadow-sm">
+    @if (errMsgJson) {
+      <div class="alert alert-danger border-0 shadow-sm mb-4 d-flex align-items-center">
+        <span class="fw-semibold">{{ errMsgJson }}</span>
+      </div>
+    }
+    <div class="card-header bg-white py-3 border-0">
+      <h4 class="mb-0 fw-bold text-dark">Dodavanje elemenata preko JSON fajla</h4>
+    </div>
+    <div class="card-body bg-light border-top">
+      <div class="row g-3 align-items-end">
+        <div class="col-md-9">
+          <input
+            type="file"
+            accept=".json"
+            class="form-control form-control-sm"
+            (change)="ucitajObjekteIzJSONFajla($event)"
+          />
+        </div>
+        <div class="col-md-3">
+          <button class="btn btn-primary btn-sm w-100 fw-semibold" (click)="kreirajNoviJSON()">
+            Kreiraj novi objekat (JSON)
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="fw-bold text-dark mt-5 mb-3">Azuriranje postojecih objekata</h2>
+
+  @for (obj of sviAktivniObjektiZaposlenog; let i = $index; track i) {
+    @if (errMsgAzuriranje[obj.detalji_objekta._id]) {
+      <div class="alert alert-danger border-0 shadow-sm mb-4 d-flex align-items-center">
+        <span class="fw-semibold">{{ errMsgAzuriranje[obj.detalji_objekta._id] }}</span>
+      </div>
+    }
+    <div class="card mb-4 border-0 shadow-sm">
+      <div class="card-body bg-light">
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label class="form-label fw-semibold text-muted small">Naziv:</label>
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              [(ngModel)]="obj.detalji_objekta.naziv"
+            />
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold text-muted small">Grad:</label>
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              [(ngModel)]="obj.detalji_objekta.grad"
+            />
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold text-muted small">Adresa:</label>
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              [(ngModel)]="obj.detalji_objekta.adresa"
+            />
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold text-muted small">Maticni broj:</label>
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              [(ngModel)]="obj.detalji_objekta.maticni_broj"
+            />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold text-muted small">PIB:</label>
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              [(ngModel)]="obj.detalji_objekta.pib"
+            />
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold text-muted small">Latituda:</label>
+            <input
+              type="number"
+              class="form-control form-control-sm"
+              [(ngModel)]="obj.detalji_objekta.lat"
+            />
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold text-muted small">Longituda:</label>
+            <input
+              type="number"
+              class="form-control form-control-sm"
+              [(ngModel)]="obj.detalji_objekta.lon"
+            />
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label fw-semibold text-muted small">Radno vreme od:</label>
+            <input
+              type="number"
+              class="form-control form-control-sm"
+              [(ngModel)]="obj.detalji_objekta.radno_vreme_od"
+            />
+          </div>
+          <div class="col-md-3">
+            <label class="form-label fw-semibold text-muted small">Radno vreme do:</label>
+            <input
+              type="number"
+              class="form-control form-control-sm"
+              [(ngModel)]="obj.detalji_objekta.radno_vreme_do"
+            />
+          </div>
+          <div class="col-md-3">
+            <label class="form-label fw-semibold text-muted small">Broj dozvoljenih kazni:</label>
+            <input
+              type="number"
+              class="form-control form-control-sm"
+              [(ngModel)]="obj.detalji_objekta.broj_dozvoljenih_kazni"
+            />
+          </div>
+          <div class="col-md-3">
+            <label class="form-label fw-semibold text-muted small">Cenovnik po satu:</label>
+            <input
+              type="number"
+              class="form-control form-control-sm"
+              [(ngModel)]="obj.detalji_objekta.cenovnik_po_satu"
+            />
+          </div>
+
+          <div class="col-md-12">
+            <label class="form-label fw-semibold text-muted small">Duzi opis</label>
+            <textarea
+              class="form-control form-control-sm"
+              maxlength="300"
+              [(ngModel)]="obj.detalji_objekta.duzi_opis"
+            ></textarea>
+          </div>
+
+          <div class="col-md-12">
+            <label class="form-label fw-semibold text-muted small d-block">Vrste sportova:</label>
+            <div class="mb-2">
+              @for (s of obj.detalji_objekta.vrste_sportova; let i = $index; track i) {
+                <span class="badge bg-primary me-1 py-1 px-2">{{ s }}</span>
+              }
+            </div>
+            <select
+              class="form-select form-select-sm"
+              multiple
+              [(ngModel)]="obj.detalji_objekta.vrste_sportova"
+            >
+              @for (s of sviSportovi; let i = $index; track i) {
+                <option [value]="s">{{ s }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="col-md-12">
+            <label class="form-label fw-semibold text-muted small d-block">Galerija:</label>
+            <input
+              type="file"
+              multiple
+              accept="image/*"
+              class="form-control form-control-sm mb-2"
+              (change)="izaberiSlikuZaGalerijuPriAzuriranju($event, obj.detalji_objekta)"
+            />
+
+            <div class="d-flex flex-wrap gap-2 mb-2">
+              @for (
+                s of noveSlikeAzuriranjePrikaz[obj.detalji_objekta._id];
+                let i = $index;
+                track i
+              ) {
+                <img
+                  [src]="s"
+                  [alt]="s"
+                  (click)="ukloniPrikazPriAzuriranjuNoveSlike(obj.detalji_objekta, i)"
+                  class="img-thumbnail"
+                  style="width: 70px; height: 70px; object-fit: cover; cursor: pointer"
+                />
+              }
+            </div>
+
+            <div class="d-flex flex-wrap gap-2">
+              @for (s of obj.detalji_objekta.galerija; let i = $index; track i) {
+                <img
+                  [src]="'http://localhost:4000' + s"
+                  [alt]="'http://localhost:4000' + s"
+                  (click)="ukloniPrikazPriAzuriranju(obj.detalji_objekta, i)"
+                  class="img-thumbnail"
+                  style="width: 70px; height: 70px; object-fit: cover; cursor: pointer"
+                />
+              }
+            </div>
+          </div>
+
+          <div class="col-md-12 mt-4">
+            <h5 class="fw-bold text-secondary border-bottom pb-2">Azuriranje elemenata:</h5>
+
+            @for (el of obj.detalji_objekta.elementi; let i = $index; track i) {
+              <div class="bg-white p-3 rounded border mb-3">
+                <div class="row g-3">
+                  <div class="col-md-4">
+                    <label class="form-label fw-semibold text-muted small">Naziv:</label>
+                    <input
+                      type="text"
+                      class="form-control form-control-sm"
+                      [(ngModel)]="el.naziv"
+                    />
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label fw-semibold text-muted small">Tip:</label>
+                    <select class="form-select form-select-sm" [(ngModel)]="el.tip">
+                      <option value="otvoreni_teren">Otvoreni teren</option>
+                      <option value="zatvorena_hala">Zatvorena hala</option>
+                      <option value="dvorana">Dvorana</option>
+                    </select>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label fw-semibold text-muted small">Kapacitet:</label>
+                    <input
+                      type="number"
+                      class="form-control form-control-sm"
+                      [(ngModel)]="el.kapacitet"
+                    />
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold text-muted small d-block">Sport:</label>
+                    <div class="mb-2">
+                      @for (s of el.podrzani_sportovi; let i = $index; track i) {
+                        <span class="badge bg-primary me-1 py-1 px-2">{{ s }}</span>
+                      }
+                    </div>
+                    <select
+                      class="form-select form-select-sm"
+                      multiple
+                      [(ngModel)]="el.podrzani_sportovi"
+                    >
+                      @for (s of sviSportovi; let i = $index; track i) {
+                        <option [value]="s">{{ s }}</option>
+                      }
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold text-muted small">Opis opreme</label>
+                    <textarea
+                      class="form-control form-control-sm"
+                      maxlength="300"
+                      [(ngModel)]="el.opis_opreme"
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+            }
+
+            <button
+              class="btn btn-outline-primary btn-sm fw-semibold"
+              (click)="dodajElementPriAzuriranju(obj.detalji_objekta)"
+            >
+              Dodaj element
+            </button>
+          </div>
+
+          <div class="col-md-12 text-end mt-3 border-top pt-3">
+            <button
+              class="btn btn-primary btn-sm px-4 fw-semibold"
+              (click)="azurirajPostojeci(obj.detalji_objekta)"
+            >
+              Azuriraj objekat
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="my-4" />
+  }
+</div>

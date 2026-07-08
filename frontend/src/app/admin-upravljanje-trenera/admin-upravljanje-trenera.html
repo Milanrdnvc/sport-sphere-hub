@@ -1,0 +1,161 @@
+<!-- <h2>Pregled i deaktivacija trenera</h2>
+
+<table>
+  <tr>
+    <th>Ime i prezime</th>
+    <th>Objekat</th>
+    <th>Specijalizacija</th>
+    <th>Cena po satu</th>
+    <th>Prosecna ocena</th>
+    <th>Aktivan</th>
+  </tr>
+  @for (t of sviTreneri; track t._id) {
+    <tr>
+      <td>{{ t.ime_prezime }}</td>
+      <td>{{ t.objekat_id.naziv }}</td>
+      <td>{{ t.specijalizacija }}</td>
+      <td>{{ t.cena_po_satu }}</td>
+      <td>{{ t.prosecna_ocena }}</td>
+      <td>{{ t.aktivan ? 'Da' : 'Ne' }}</td>
+      @if (t.aktivan) {
+        <td><button (click)="deaktivirajTrenera(t._id)">Deaktiviraj</button></td>
+      }
+    </tr>
+  }
+</table>
+
+<h2>Dodavanje trenera</h2>
+Ime i prezime: <input type="text" name="" id="" [(ngModel)]="noviTrener.ime_prezime" />
+Specijalizacija:
+<select name="" id="" [(ngModel)]="noviTrener.specijalizacija">
+  @for (s of sviSportovi; track s) {
+    <option [value]="s">{{ s }}</option>
+  }
+</select>
+Objekat:
+<select name="" id="" [(ngModel)]="noviTrener.objekat_id">
+  @for (obj of sviSportskiObjekti; track obj._id) {
+    <option [value]="obj._id">{{ obj.naziv }}</option>
+  }
+</select>
+Cena po satu: <input type="number" [(ngModel)]="noviTrener.cena_po_satu" /> Prosecna ocena:
+<input type="number" [(ngModel)]="noviTrener.prosecna_ocena" />
+<button (click)="dodajNovog()">Dodaj novog trenera</button> -->
+<div class="container mt-4">
+  <h2 class="fw-bold text-dark mb-4">Pregled i deaktivacija trenera</h2>
+
+  <div class="table-responsive shadow-sm rounded mb-5">
+    <table class="table table-hover align-middle mb-0 bg-white">
+      <thead class="table-light">
+        <tr>
+          <th>Ime i prezime</th>
+          <th>Objekat</th>
+          <th>Specijalizacija</th>
+          <th>Cena po satu</th>
+          <th>Prosecna ocena</th>
+          <th>Aktivan</th>
+          <th>Akcija</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (t of sviTreneri; track t._id) {
+          <tr>
+            <td class="fw-semibold">{{ t.ime_prezime }}</td>
+            <td>{{ t.objekat_id.naziv }}</td>
+            <td>{{ t.specijalizacija }}</td>
+            <td>{{ t.cena_po_satu }}</td>
+            <td>{{ t.prosecna_ocena }}</td>
+            <td>{{ t.aktivan ? 'Da' : 'Ne' }}</td>
+            <td>
+              @if (t.aktivan) {
+                <button
+                  class="btn btn-outline-primary btn-sm fw-semibold"
+                  (click)="deaktivirajTrenera(t._id)"
+                >
+                  Deaktiviraj
+                </button>
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="fw-bold text-dark mb-4">Dodavanje trenera</h2>
+
+  <div class="card border-0 shadow-sm bg-light p-4 mb-4">
+    <div class="row g-3">
+      <div class="col-md-4">
+        <label class="form-label fw-semibold text-muted small">Ime i prezime:</label>
+        <input
+          type="text"
+          name=""
+          id=""
+          class="form-control form-control-sm"
+          [(ngModel)]="noviTrener.ime_prezime"
+        />
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label fw-semibold text-muted small">Specijalizacija:</label>
+        <select
+          name=""
+          id=""
+          class="form-select form-select-sm"
+          [(ngModel)]="noviTrener.specijalizacija"
+        >
+          @for (s of sviSportovi; track s) {
+            <option [value]="s">{{ s }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label fw-semibold text-muted small">Objekat:</label>
+        <select
+          name=""
+          id=""
+          class="form-select form-select-sm"
+          [(ngModel)]="noviTrener.objekat_id"
+        >
+          @for (obj of sviSportskiObjekti; track obj._id) {
+            <option [value]="obj._id">{{ obj.naziv }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold text-muted small">Cena po satu:</label>
+        <input
+          type="number"
+          class="form-control form-control-sm"
+          [(ngModel)]="noviTrener.cena_po_satu"
+        />
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold text-muted small">Prosecna ocena:</label>
+        <input
+          type="number"
+          class="form-control form-control-sm"
+          [(ngModel)]="noviTrener.prosecna_ocena"
+        />
+      </div>
+
+      <div>
+        @if (errMsg) {
+          <span class="text-danger fw-semibold small bg-white px-2 py-1">
+            {{ errMsg }}
+          </span>
+        }
+      </div>
+
+      <div class="col-md-12 text-end mt-3">
+        <button class="btn btn-primary btn-sm px-4 fw-semibold" (click)="dodajNovog()">
+          Dodaj novog trenera
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

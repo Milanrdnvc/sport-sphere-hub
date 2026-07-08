@@ -1,0 +1,65 @@
+<!-- <h2>Biranje objekta i elementa</h2>
+Objekat:
+<select name="" id="" [(ngModel)]="izabranObjekat" (ngModelChange)="azurirajElemente()">
+  @for (o of sviAktivniObjektiZaZaposlenog; track o.detalji_objekta._id) {
+    <option [ngValue]="o.detalji_objekta">{{ o.detalji_objekta.naziv }}</option>
+  }
+</select>
+Element:
+<select name="" id="" [(ngModel)]="izabranElementObjekta" (ngModelChange)="generisiRezervacije()">
+  @for (el of elementiIzabranogObjekta; track el._id) {
+    <option [ngValue]="el">{{ el.naziv }}</option>
+  }
+</select>
+
+<div style="max-width: 900px; margin: 20px auto; padding: 10px">
+  <full-calendar [options]="calendarOptions"></full-calendar>
+</div> -->
+<div class="container mt-4">
+  <div class="card mb-4 border-0 shadow-sm">
+    <div class="card-header bg-white py-3 border-0">
+      <h4 class="mb-0 fw-bold text-dark">Pregled kalendara zauzetosti</h4>
+    </div>
+    <div class="card-body bg-light border-top">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label fw-semibold text-muted small">Izaberite objekat:</label>
+          <select
+            class="form-select form-select-sm"
+            [(ngModel)]="izabranObjekat"
+            (ngModelChange)="azurirajElemente()"
+          >
+            @for (o of sviAktivniObjektiZaZaposlenog; track o.detalji_objekta._id) {
+              <option [ngValue]="o.detalji_objekta">{{ o.detalji_objekta.naziv }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label fw-semibold text-muted small"
+            >Izaberite konkretan element:</label
+          >
+          <select
+            class="form-select form-select-sm"
+            [(ngModel)]="izabranElementObjekta"
+            (ngModelChange)="generisiRezervacije()"
+          >
+            @for (el of elementiIzabranogObjekta; track el._id) {
+              <option [ngValue]="el">{{ el.naziv }}</option>
+            }
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @if (errMsg) {
+    <div class="alert alert-danger py-2 small mb-3" role="alert">
+      {{ errMsg }}
+    </div>
+  }
+
+  <div class="calendar-container p-2 bg-white rounded">
+    <full-calendar [options]="calendarOptions"></full-calendar>
+  </div>
+</div>

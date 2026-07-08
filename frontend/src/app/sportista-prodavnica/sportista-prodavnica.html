@@ -1,0 +1,164 @@
+<!-- <h2>Pregledaj katalog</h2>
+Vrsta sporta:
+<select name="" id="" [(ngModel)]="izabraniSport" (ngModelChange)="pretrazi()">
+  @for (s of sviSportovi; track s) {
+    <option [value]="s">{{ s }}</option>
+  }
+</select>
+Objekat:
+<select name="" id="" [(ngModel)]="izabraniObjekatId" (ngModelChange)="pretrazi()">
+  @for (o of sviSportskiObjekti; track o._id) {
+    <option [value]="o._id">{{ o.naziv }}</option>
+  }
+</select>
+<table>
+  <tr>
+    <th>Naziv</th>
+    <th>Cena</th>
+    <th>Zalihe</th>
+    <th>Slika</th>
+  </tr>
+  @for (o of filtriranaOprema; track o._id) {
+    <tr>
+      <td>{{ o.naziv }}</td>
+      <td>{{ o.cena }}</td>
+      <td>{{ o.zalihe }}</td>
+      <td><img [src]="o.slika" [alt]="o.slika" /></td>
+      <td>
+        Kolicina: <input type="number" name="" id="" [(ngModel)]="kolicine[o._id]" />
+        <button (click)="dodajUKorpu(o)">Dodaj u korpu</button>
+      </td>
+    </tr>
+  }
+</table>
+
+<span style="color: red">{{ errMsg }}</span>
+
+<h2>Pregled korpe</h2>
+@for (s of novaNarudzbina.stavke; track s.artikal_id; let i = $index) {
+  <p>{{ s.naziv }} - {{ s.kolicina }} - {{ s.cena_u_trenutku_kupovine }}</p>
+  <button (click)="ukloniIzKorpe(i)">Ukloni iz korpe</button>
+}
+<p>Ukupna cena: {{ ukupnaCena }}</p>
+<button (click)="naruci()">Naruci</button> -->
+<div class="container mt-4">
+  <div class="card border-0 shadow-sm mb-4">
+    <div class="card-body p-4">
+      <h4 class="fw-bold text-dark mb-3">Pregledaj katalog</h4>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label fw-semibold small text-secondary">Vrsta sporta:</label>
+          <select class="form-select" [(ngModel)]="izabraniSport" (ngModelChange)="pretrazi()">
+            <option value="">Svi sportovi</option>
+            @for (s of sviSportovi; track s) {
+              <option [value]="s">{{ s }}</option>
+            }
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label fw-semibold small text-secondary">Objekat:</label>
+          <select class="form-select" [(ngModel)]="izabraniObjekatId" (ngModelChange)="pretrazi()">
+            <option value="">Svi objekti</option>
+            @for (o of sviSportskiObjekti; track o._id) {
+              <option [value]="o._id">{{ o.naziv }}</option>
+            }
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @if (errMsg) {
+    <div
+      class="alert alert-danger d-flex align-items-center mb-4 border-0 shadow-sm py-2 px-3"
+      role="alert"
+    >
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>
+      <div class="fw-semibold small">
+        {{ errMsg }}
+      </div>
+    </div>
+  }
+
+  <div class="card border-0 shadow-sm mb-4">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light small text-muted">
+          <tr>
+            <th class="ps-4">Naziv</th>
+            <th>Cena</th>
+            <th>Zalihe</th>
+            <th>Slika</th>
+            <th class="pe-4 text-end">Akcija</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (o of filtriranaOprema; let i = $index; track i) {
+            <tr>
+              <td class="ps-4 fw-semibold text-dark">{{ o.naziv }}</td>
+              <td class="fw-bold">{{ o.cena }}€</td>
+              <td>{{ o.zalihe }}</td>
+              <td>
+                <img
+                  [src]="'http://localhost:4000' + o.slika"
+                  [alt]="o.slika"
+                  class="rounded border object-fit-cover"
+                  style="width: 50px; height: 50px"
+                />
+              </td>
+              <td class="pe-4">
+                <div class="d-flex align-items-center justify-content-end gap-2">
+                  <span class="small text-muted text-nowrap">Kolicina:</span>
+                  <input
+                    type="number"
+                    class="form-control form-control-sm"
+                    style="width: 70px"
+                    [(ngModel)]="kolicine[o._id]"
+                  />
+                  <button
+                    class="btn btn-primary btn-sm fw-semibold text-nowrap"
+                    (click)="dodajUKorpu(o)"
+                  >
+                    Dodaj u korpu
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card border-0 shadow-sm">
+    <div class="card-body p-4">
+      <h4 class="fw-bold text-dark mb-3">Pregled korpe</h4>
+
+      <div class="list-group list-group-flush mb-4">
+        @for (s of novaNarudzbina.stavke; track s.artikal_id; let i = $index) {
+          <div class="list-group-item px-0 d-flex justify-content-between align-items-center py-3">
+            <div>
+              <h6 class="fw-semibold text-dark mb-1">{{ s.naziv }}</h6>
+              <small class="text-muted">
+                Kolicina: <strong class="text-dark">{{ s.kolicina }}</strong> Cena:
+                <strong class="text-dark">{{ s.cena_u_trenutku_kupovine }}€</strong>
+              </small>
+            </div>
+            <button class="btn btn-outline-primary btn-sm fw-semibold" (click)="ukloniIzKorpe(i)">
+              Ukloni iz korpe
+            </button>
+          </div>
+        }
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center border-top pt-3">
+        <h5 class="fw-bold text-dark mb-0">
+          Ukupna cena: <span>{{ ukupnaCena }}€</span>
+        </h5>
+        <button class="btn btn-primary fw-bold px-4 py-2 shadow-sm" (click)="naruci()">
+          Naruci
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

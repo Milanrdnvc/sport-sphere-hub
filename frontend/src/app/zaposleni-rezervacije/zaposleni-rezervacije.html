@@ -1,0 +1,85 @@
+<!-- <h2>Pregled svih rezervacija za objekte zaposlenog</h2>
+
+<table>
+  <tr>
+    <th>Objekat</th>
+    <th>Element</th>
+    <th>Sport</th>
+    <th>Datum</th>
+    <th>Od - do</th>
+    <th>Status</th>
+  </tr>
+  @for (r of sveRezervacijeZaZaposlenog; track r._id) {
+    <tr>
+      <td>{{ r.objekat_id }}</td>
+      <td>{{ r.element_id }}</td>
+      <td>{{ r.sport }}</td>
+      <td>{{ r.datum }}</td>
+      <td>{{ r.termin_od }} - {{ r.termin_do }}</td>
+      <td>{{ r.status }}</td>
+      @if (mozeDaSeCekira(r)) {
+        <td><button (click)="potvrdi(r._id)">Povrdi</button></td>
+        <td><button (click)="odjavi(r._id)">Odjavi</button></td>
+      }
+    </tr>
+  }
+</table> -->
+<div class="container mt-4">
+  <div class="card mb-4 border-0 shadow-sm">
+    <div class="card-header bg-white py-3 border-0">
+      <h4 class="mb-0 fw-bold">Pregled svih rezervacija za objekte zaposlenog</h4>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Objekat</th>
+              <th>Element</th>
+              <th>Sport</th>
+              <th>Datum</th>
+              <th>Od - do</th>
+              <th>Tip</th>
+              <th>Status</th>
+              <th>Akcija</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (r of sveRezervacijeZaZaposlenog; track r._id) {
+              <tr>
+                <td>{{ r.objekat_id.naziv }}</td>
+                <td>{{ r.element_id.naziv }}</td>
+                <td>{{ r.sport }}</td>
+                <td>{{ r.datum }}</td>
+                <td>{{ r.termin_od }} - {{ r.termin_do }}</td>
+                <td>{{ r.tip }}</td>
+                <td>{{ r.status }}</td>
+                <td>
+                  @if (mozeDaSeCekira(r)) {
+                    <button
+                      class="btn btn-primary btn-sm px-3 fw-semibold me-1"
+                      (click)="potvrdi(r._id)"
+                    >
+                      Povrdi
+                    </button>
+                    <button
+                      class="btn btn-primary btn-sm px-3 fw-semibold me-1"
+                      (click)="odjavi(r._id)"
+                    >
+                      Odjavi
+                    </button>
+                  }
+                  @if (mozeDaSeOdobri(r)) {
+                    <button class="btn btn-primary btn-sm px-3 fw-semibold" (click)="odobri(r._id)">
+                      Odobri
+                    </button>
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

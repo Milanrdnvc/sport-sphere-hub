@@ -1,0 +1,42 @@
+<!-- <h2>Postavljanje nove lozinke</h2>
+Nova lozinka:
+<input type="password" name="" id="" [(ngModel)]="novaLozinka" />
+Potvrda nove lozinke:
+<input type="password" name="" id="" [(ngModel)]="novaLozinkaPotvrda" />
+<button (click)="postavi()">Postavi novu lozinku</button>
+<span>{{ errMsg }}</span> -->
+<div class="container d-flex justify-content-center align-items-center my-5">
+  <div class="card p-4 shadow-sm" style="width: 100%; max-width: 450px">
+    <h3 class="text-center mb-4 fw-bold text-primary">Postavljanje nove lozinke</h3>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Nova lozinka</label>
+      <input
+        type="password"
+        class="form-control"
+        placeholder="Unesite novu lozinku"
+        [(ngModel)]="novaLozinka"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Potvrda nove lozinke</label>
+      <input
+        type="password"
+        class="form-control"
+        placeholder="Ponovite novu lozinku"
+        [(ngModel)]="novaLozinkaPotvrda"
+      />
+    </div>
+
+    @if (errMsg) {
+      <div class="mb-2 text-start">
+        <span class="text-danger small fw-semibold">{{ errMsg }}</span>
+      </div>
+    }
+
+    <button class="btn btn-primary w-100 fw-bold py-2 mt-2" (click)="postavi()">
+      Postavi novu lozinku
+    </button>
+  </div>
+</div>

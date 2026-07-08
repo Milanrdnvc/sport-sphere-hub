@@ -1,0 +1,34 @@
+<!-- Korisnicko ime ili email: <input type="text" name="" id="" [(ngModel)]="kor_ime_ili_email" />
+<button (click)="generisiLink()">Generisi link</button>
+@if (generisaniLink) {
+  <a class="nav-link" [routerLink]="'/' + generisaniLink">Idi na stranicu za resetovanje lozinke</a>
+}
+<span>{{ errMsg }}</span> -->
+<div class="container d-flex justify-content-center align-items-center my-5">
+  <div class="card p-4 shadow-sm" style="width: 100%; max-width: 450px">
+    <h3 class="text-center mb-4 fw-bold text-primary">Zaboravljena lozinka</h3>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Korisnicko ime ili email</label>
+      <input type="text" class="form-control" [(ngModel)]="kor_ime_ili_email" />
+    </div>
+
+    @if (errMsg) {
+      <div class="mb-2 text-start">
+        <span class="text-danger small fw-semibold">{{ errMsg }}</span>
+      </div>
+    }
+
+    <button class="btn btn-primary w-100 fw-bold py-2 mt-2" (click)="generisiLink()">
+      Generisi link
+    </button>
+
+    @if (generisaniLink) {
+      <div class="alert alert-primary mt-4 text-center p-2 small border shadow-sm" role="alert">
+        <a class="fw-bold text-primary text-decoration-none" [routerLink]="'/' + generisaniLink">
+          Idi na stranicu za resetovanje lozinke
+        </a>
+      </div>
+    }
+  </div>
+</div>

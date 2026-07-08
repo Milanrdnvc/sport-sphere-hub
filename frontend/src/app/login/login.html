@@ -1,0 +1,43 @@
+<!-- <input type="text" name="" id="" placeholder="Korisnicko ime" [(ngModel)]="kor_ime" />
+<input type="password" name="" id="" placeholder="Lozinka" [(ngModel)]="lozinka" />
+<span style="color: red">{{ errMsg }}</span>
+<button (click)="login()">Prijava</button> -->
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh">
+  <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px">
+    <h3 class="text-center mb-4 fw-bold text-primary">Prijava</h3>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Korisnicko ime</label>
+      <input type="text" class="form-control" placeholder="Korisničko ime" [(ngModel)]="kor_ime" />
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Lozinka</label>
+      <input type="password" class="form-control" placeholder="Lozinka" [(ngModel)]="lozinka" />
+    </div>
+
+    @if (errMsg) {
+      <div class="alert alert-danger py-2 text-center small mb-3" role="alert">
+        {{ errMsg }}
+      </div>
+    }
+
+    <button class="btn btn-primary w-100 fw-bold py-2" (click)="login()">Prijava</button>
+
+    <hr class="text-muted my-4" />
+
+    <div class="d-flex justify-content-between gap-2">
+      <button class="btn btn-outline-primary btn-sm w-50 fw-semibold" (click)="idiNaAdminPrijavu()">
+        Admin prijava
+      </button>
+
+      <button class="btn btn-outline-primary btn-sm w-50 fw-semibold" (click)="idiNaRegistraciju()">
+        Registracija
+      </button>
+    </div>
+    <button class="btn btn-outline-primary w-100 fw-bold py-2 mt-2" (click)="resetLozinke()">
+      Zaboravljena lozinka
+    </button>
+  </div>
+</div>

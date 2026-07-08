@@ -1,0 +1,241 @@
+<!-- <input type="text" name="" id="" placeholder="Korisnicko ime" [(ngModel)]="kor_ime" />
+<input type="password" name="" id="" placeholder="Lozinka" [(ngModel)]="lozinka" />
+<input type="text" name="" id="" placeholder="Ime" [(ngModel)]="ime" />
+<input type="text" name="" id="" placeholder="Prezime" [(ngModel)]="prezime" />
+<input type="text" name="" id="" placeholder="Kontakt telefon" [(ngModel)]="kontakt_telefon" />
+<input type="email" name="" id="" placeholder="Email" [(ngModel)]="email" />
+Sportista: <input type="radio" name="tip" id="" value="sportista" [(ngModel)]="tip" /> Zaposleni:
+<input type="radio" name="tip" id="" value="zaposleni" [(ngModel)]="tip" />
+<input type="file" (change)="izaberiSliku($event)" accept=".jpg,.png" />
+<select
+  name=""
+  id=""
+  multiple
+  [(ngModel)]="sportovi"
+  (ngModelChange)="proveriLimitSportova($event)"
+>
+  @for (s of dostupniSportovi; track s.naziv) {
+    <option [value]="s.naziv">{{ s.naziv }}</option>
+  }
+</select>
+
+@if (tip == 'zaposleni') {
+  <input
+    type="text"
+    name="naziv_firme"
+    [(ngModel)]="unetNazivObjekta"
+    placeholder="Naziv objekta"
+  />
+  <input
+    type="text"
+    name="adr_sedista"
+    [(ngModel)]="unetaAdresaSedista"
+    placeholder="Adresa sedišta"
+  />
+  <input type="text" name="maticni_broj" [(ngModel)]="unetMaticniBroj" placeholder="Matični broj" />
+  <input type="text" name="pib" [(ngModel)]="unetPib" placeholder="PIB" />
+}
+
+<button (click)="register()">Registruj se</button>
+
+<span style="color: red">{{ errMsg }}</span> -->
+
+<div class="container d-flex justify-content-center align-items-center my-5">
+  <div class="card p-4 shadow-sm" style="width: 100%; max-width: 650px">
+    <h3 class="text-center mb-4 fw-bold text-primary">Registracija</h3>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label fw-semibold">Korisnicko ime</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Korisnicko ime"
+          [(ngModel)]="noviKorisnik.kor_ime"
+        />
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label class="form-label fw-semibold">Lozinka</label>
+        <input
+          type="password"
+          class="form-control"
+          placeholder="Lozinka"
+          [(ngModel)]="noviKorisnik.lozinka"
+        />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label fw-semibold">Ime</label>
+        <input type="text" class="form-control" placeholder="Ime" [(ngModel)]="noviKorisnik.ime" />
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label class="form-label fw-semibold">Prezime</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Prezime"
+          [(ngModel)]="noviKorisnik.prezime"
+        />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label fw-semibold">Kontakt telefon</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Kontakt telefon"
+          [(ngModel)]="noviKorisnik.kontakt_telefon"
+        />
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label class="form-label fw-semibold">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          placeholder="Email"
+          [(ngModel)]="noviKorisnik.email"
+        />
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold d-block">Tip korisnika</label>
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="tip"
+          id="tipSportista"
+          value="sportista"
+          [(ngModel)]="noviKorisnik.tip"
+        />
+        <label class="form-check-label" for="tipSportista">Sportista</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="tip"
+          id="tipZaposleni"
+          value="zaposleni"
+          [(ngModel)]="noviKorisnik.tip"
+        />
+        <label class="form-check-label" for="tipZaposleni">Zaposleni</label>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Profilna slika</label>
+      <input type="file" class="form-control" (change)="izaberiSliku($event)" accept=".jpg,.png" />
+      <button
+        class="btn btn-outline-primary btn-sm w-100 fw-semibold mt-1"
+        (click)="generisiAvatar()"
+      >
+        Generisi avatar
+      </button>
+      <button
+        class="btn btn-outline-primary btn-sm w-100 fw-semibold mt-1"
+        (click)="sacuvajAvatar()"
+      >
+        Sacuvaj kao profilnu sliku
+      </button>
+      <img [src]="avatarPrikazUrl" [alt]="avatarPrikazUrl" />
+    </div>
+
+    <div class="mb-4">
+      <label class="form-label fw-semibold">Zainteresovan za sportove (max 5)</label>
+      <select
+        class="form-select"
+        multiple
+        [(ngModel)]="noviKorisnik.sportovi"
+        (ngModelChange)="proveriLimitSportova($event)"
+      >
+        @for (s of sviSportovi; track s.naziv) {
+          <option [value]="s.naziv">{{ s.naziv }}</option>
+        }
+      </select>
+      <div class="form-text text-muted small">Drzite CTRL za izbor vise opcija.</div>
+    </div>
+
+    @if (noviKorisnik.tip == 'zaposleni') {
+      <div class="p-3 mb-4 bg-light rounded border shadow-sm">
+        <h5 class="text-secondary mb-3 fw-bold small text-uppercase tracking-wide">
+          Podaci o sportskom objektu
+        </h5>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label small fw-semibold">Naziv objekta</label>
+            <input
+              type="text"
+              class="form-control"
+              name="naziv_firme"
+              [(ngModel)]="unetNazivObjekta"
+              placeholder="Naziv objekta"
+            />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label small fw-semibold">Adresa sedista</label>
+            <input
+              type="text"
+              class="form-control"
+              name="adr_sedista"
+              [(ngModel)]="unetaAdresaSedista"
+              placeholder="Adresa sedista"
+            />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-2">
+            <label class="form-label small fw-semibold">Maticni broj</label>
+            <input
+              type="text"
+              class="form-control"
+              name="maticni_broj"
+              [(ngModel)]="unetMaticniBroj"
+              placeholder="Maticni broj"
+            />
+          </div>
+          <div class="col-md-6 mb-2">
+            <label class="form-label small fw-semibold">PIB</label>
+            <input
+              type="text"
+              class="form-control"
+              name="pib"
+              [(ngModel)]="unetPib"
+              placeholder="PIB"
+            />
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (errMsg) {
+      <span class="text-danger small fw-semibold">{{ errMsg }}</span>
+    }
+
+    <button class="btn btn-primary w-100 fw-bold py-2 mt-2" (click)="register()">
+      Registruj se
+    </button>
+
+    <hr class="text-muted my-4" />
+
+    <div class="d-flex justify-content-between gap-2">
+      <button class="btn btn-outline-primary btn-sm w-50 fw-semibold" (click)="idiNaPrijavu()">
+        Prijava
+      </button>
+
+      <button class="btn btn-outline-primary btn-sm w-50 fw-semibold" (click)="idiNaAdminPrijavu()">
+        Admin prijava
+      </button>
+    </div>
+  </div>
+</div>
