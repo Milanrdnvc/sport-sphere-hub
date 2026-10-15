@@ -44,7 +44,8 @@ Clone this repository to your local development environment.
 ```bash
 cd backend
 npm install
-npm run dev
+npm run build
+npm start
 ```
 
 ### Frontend
@@ -52,7 +53,7 @@ npm run dev
 ```bash
 cd frontend
 npm install
-ng serve
+npm start
 ```
 
 ## Running the Application
