@@ -56,20 +56,6 @@ npm install
 npm start
 ```
 
-## Running the Application
-
-Start the backend:
-
-```bash
-cd backend && npm run dev
-```
-
-Start the frontend:
-
-```bash
-cd frontend && ng serve
-```
-
 Open your browser at `http://localhost:4200`.
 
 ## Contributing
